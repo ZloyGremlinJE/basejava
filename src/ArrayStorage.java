@@ -56,7 +56,7 @@ public class ArrayStorage {
               break;
           }
         }
-        Resume [] resumesWithoutNull = Arrays.copyOfRange(storage, 0, index);
+        Resume [] resumesWithoutNull = Arrays.copyOf(storage, index);
 
         return resumesWithoutNull;
     }
