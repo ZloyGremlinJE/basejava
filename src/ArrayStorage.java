@@ -7,53 +7,35 @@ public class ArrayStorage {
     Resume[] storage = new Resume[10000];
 
     void clear() {
-        Arrays.fill(storage, null);// заполняем все ячейки значением null
+        Arrays.fill(storage, 0, size() - 1, null);// обнуляем только ячейки в ктр. не null
     }
 
     void save(Resume r) {
-        for (int i = 0; i < size(); i++) {
-            // ищем первый элемент с null  и записываем в него Resume r
-            if (storage[i] == null) {
-                storage[i] = r;
-                break;
-            }
-        }
-        
+        int size = size();
+        storage[size] = r;
     }
 
     Resume get(String uuid) {
-        Resume result = null;
-        for (Resume resume : storage) {
-            if (resume == null) break; // массив storage пуст
-            if (resume.uuid.equals(uuid)) {
-                result = resume;
+        for (int i = 0; i < size(); i++) {
+            if (storage[i].uuid.equals(uuid)) {
+                return storage[i];
             }
         }
-
-        return result;
+        return null;
     }
 
     void delete(String uuid) {
-        /* первый цикл находит индекс элемента массива ктр. нужно удалить и обнуляет элемент
-           второй цикл  "перемещает" все не null элементы так чтобы они располагались "без дыр".
-         */
-        int index = 0;
+        //найдем индекс удаляемого элемента
+        int index = -1;
         for (int i = 0; i < size(); i++) {
             if (storage[i].uuid.equals(uuid)) {
-                storage[i] = null;
                 index = i;
                 break;
             }
         }
-
-        for (int i = index; i < size() - 1; i++) {
-            Resume temp = storage[i + 1];
-            storage[i] = temp;
-            if (storage[i + 1] == null) {
-                break;
-            } else {
-                storage[i + 1] = null;
-            }
+        if (index >= 0) {
+            Resume[] copy = getAll();
+            System.arraycopy(copy, index , storage, index, size() );
         }
     }
 
@@ -61,20 +43,17 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        int index = size();// если заполнен весь массив
-        //ищем индекс ячейки массива с первым null
-        for (int i = 0; i < size(); i++) {
-            if (storage[i] == null) {
-                index = i;
-                break;
-            }
-        }
-        Resume[] resumesWithoutNull = Arrays.copyOf(storage, index);
-
-        return resumesWithoutNull;
+        return Arrays.copyOf(storage, size());
     }
 
     int size() {
-        return storage.length;
+        int size = 0;
+        for (int i = 0; i < storage.length; i++) {
+            if (storage[i] != null) {
+                size++;
+            } else break;
+
+        }
+        return size;
     }
 }
