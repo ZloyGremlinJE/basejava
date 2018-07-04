@@ -11,7 +11,7 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        for (int i = 0; i < size()-1; i++) {
+        for (int i = 0; i < size(); i++) {
             // ищем первый элемент с null  и записываем в него Resume r
             if (storage[i] == null) {
                 storage[i] = r;
@@ -21,7 +21,7 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-      Resume  result = null;
+        Resume result = null;
         for (Resume resume : storage) {
             if (resume == null) break; // массив storage пуст
             if (resume.uuid.equals(uuid)) {
@@ -33,19 +33,26 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        /* первый цикл находит индекс элемента массива ктр. нужно удалить
-           второй цикл  презаписывает  все не null элементы массива элементами, следующими за ними
+        /* первый цикл находит индекс элемента массива ктр. нужно удалить и обнуляет элемент
+           второй цикл  "перемещает" все не null элементы так чтобы они располагались "без дыр".
          */
         int index = 0;
-        for (int i = 0; i < size()-1 ; i++) {
-            if(storage[i] == null) break;
-            if(storage[i].uuid.equals(uuid) ){
-               index = i;
+        for (int i = 0; i < size(); i++) {
+            if (storage[i].uuid.equals(uuid)) {
+                storage[i] = null;
+                index = i;
+                break;
             }
         }
-        for (int i = index; i < size()-2 ; i++) {
-            storage[i] = storage[i+1];
-            if(storage[i] == null) break;
+
+        for (int i = index; i < size() - 1; i++) {
+            Resume temp = storage[i + 1];
+            storage[i] = temp;
+            if (storage[i + 1] == null) {
+                break;
+            } else {
+                storage[i + 1] = null;
+            }
         }
     }
 
@@ -53,14 +60,15 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        int index = size()-1;
-        for (int i = 0; i < size()-1 ; i++) {
-          if(storage[i] == null) {
-              index = i;
-              break;
-          }
+        int index = size();// если заполнен весь массив
+        //ищем индекс ячейки массива с первым null
+        for (int i = 0; i < size(); i++) {
+            if (storage[i] == null) {
+                index = i;
+                break;
+            }
         }
-        Resume [] resumesWithoutNull = Arrays.copyOf(storage, index);
+        Resume[] resumesWithoutNull = Arrays.copyOf(storage, index);
 
         return resumesWithoutNull;
     }
