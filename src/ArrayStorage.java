@@ -39,7 +39,7 @@ public class ArrayStorage {
         int index = 0;
         for (int i = 0; i < size()-1 ; i++) {
             if(storage[i] == null) break;
-            if(storage[i].uuid == uuid){
+            if(storage[i].uuid.equals(uuid) ){
                index = i;
             }
         }
