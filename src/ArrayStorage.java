@@ -18,6 +18,7 @@ public class ArrayStorage {
                 break;
             }
         }
+        
     }
 
     Resume get(String uuid) {
