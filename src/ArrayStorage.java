@@ -7,11 +7,12 @@ public class ArrayStorage {
     Resume[] storage = new Resume[10000];
 
     void clear() {
-        Arrays.fill(storage, null);
+        Arrays.fill(storage, null);// заполняем все ячейки значением null
     }
 
     void save(Resume r) {
         for (int i = 0; i < size()-1; i++) {
+            // ищем первый элемент с null  и записываем в него Resume r
             if (storage[i] == null) {
                 storage[i] = r;
                 break;
@@ -22,7 +23,7 @@ public class ArrayStorage {
     Resume get(String uuid) {
       Resume  result = null;
         for (Resume resume : storage) {
-            if (resume == null) break;
+            if (resume == null) break; // массив storage пуст
             if (resume.uuid.equals(uuid)) {
                 result = resume;
             }
@@ -32,6 +33,9 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
+        /* первый цикл находит индекс элемента массива ктр. нужно удалить
+           второй цикл  презаписывает  все не null элементы массива элементами, следующими за ними
+         */
         int index = 0;
         for (int i = 0; i < size()-1 ; i++) {
             if(storage[i] == null) break;
