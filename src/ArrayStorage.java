@@ -11,8 +11,7 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        int size = size();
-        storage[size] = r;
+        storage[size()] = r;
     }
 
     Resume get(String uuid) {
@@ -25,17 +24,14 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        //найдем индекс удаляемого элемента
-        int index = -1;
-        for (int i = 0; i < size(); i++) {
+        int size = size();
+        for (int i = 0; i < size; i++) {
+            //находим индекс удаляемого элемента и удаляем путем перезаписи на предыдущий элемент всех не null элементов массива, идущих после удаляемого
             if (storage[i].uuid.equals(uuid)) {
-                index = i;
+                int removeIndex = i;
+                System.arraycopy(storage, removeIndex + 1, storage, removeIndex, size - removeIndex);
                 break;
             }
-        }
-        if (index >= 0) {
-            Resume[] copy = getAll();
-            System.arraycopy(copy, index , storage, index, size() );
         }
     }
 
@@ -52,7 +48,6 @@ public class ArrayStorage {
             if (storage[i] != null) {
                 size++;
             } else break;
-
         }
         return size;
     }
