@@ -26,7 +26,8 @@ public class ArrayStorage {
     void delete(String uuid) {
         int size = size();
         for (int i = 0; i < size; i++) {
-            //находим индекс удаляемого элемента и удаляем путем перезаписи на предыдущий элемент всех не null элементов массива, идущих после удаляемого
+            /*Находим индекс удаляемого элемента и удаляем путем перезаписи на предыдущий элемент
+             всех не null элементов массива, идущих после удаляемого.*/
             if (storage[i].uuid.equals(uuid)) {
                 int removeIndex = i;
                 System.arraycopy(storage, removeIndex + 1, storage, removeIndex, size - removeIndex);
