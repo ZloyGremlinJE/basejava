@@ -31,6 +31,7 @@ public class ArrayStorage {
             if (storage[i].uuid.equals(uuid)) {
                 size--;
                 System.arraycopy(storage, i + 1, storage, i, size - i);
+                storage[size] = null;
                 break;
             }
         }
@@ -40,7 +41,7 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
+        return Arrays.copyOf(storage, size );
     }
 
     int size() {
