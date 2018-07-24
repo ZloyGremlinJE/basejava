@@ -23,13 +23,13 @@ public class ArrayStorage {
 
     void save(Resume r) {
         int result = getIndex(r.uuid);
-        if(result == -1){
+        if (result == -1) {
             storage[size] = r;
-            size++;}
-        else System.out.println("ERROR : Resume already exists!");
+            size++;
+        } else System.out.println("ERROR : Resume already exists!");
     }
 
-    void update(Resume r){
+    void update(Resume r) {
         int result = getIndex(r.uuid);
         if (result != -1) {
             System.out.println("Resume update!");
@@ -57,7 +57,7 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return Arrays.copyOf(storage, size );
+        return Arrays.copyOf(storage, size);
     }
 
     int size() {
