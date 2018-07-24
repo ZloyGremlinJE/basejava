@@ -13,11 +13,21 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
+        //TODO check if resume not present
+
         storage[size] = r;
         size++;
     }
 
+    void update(Resume r){
+        //TODO check if resume present
+
+
+    }
+
     Resume get(String uuid) {
+        //TODO check if resume present
+
         for (int i = 0; i < size; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 return storage[i];
@@ -27,6 +37,8 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
+        //TODO check if resume present
+
         for (int i = 0; i < size; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 size--;
