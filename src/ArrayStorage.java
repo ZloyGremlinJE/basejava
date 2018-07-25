@@ -22,16 +22,18 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        int result = getIndex(r.uuid);
-        if (result == -1) {
+        if (storage.length == size) {
+            System.out.println("ERROR: The array is full !");
+            return;
+        }
+        if (getIndex(r.uuid) == -1) {
             storage[size] = r;
             size++;
         } else System.out.println("ERROR : Resume already exists!");
     }
 
     void update(Resume r) {
-        int result = getIndex(r.uuid);
-        if (result != -1) {
+        if (getIndex(r.uuid) != -1) {
             System.out.println("Resume update!");
         } else System.out.println("ERROR : Resume not found!");
     }

@@ -36,7 +36,11 @@ public class MainArray {
                     printAll();
                     break;
                 case "update":
-                 //TODO update resume
+                    r = ARRAY_STORAGE.get(uuid);
+                    if (r != null) {
+                        ARRAY_STORAGE.update(r);
+                    }
+                    printAll();
                     break;
                 case "delete":
                     ARRAY_STORAGE.delete(uuid);
