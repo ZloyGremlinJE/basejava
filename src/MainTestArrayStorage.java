@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Test for com.urise.webapp.storage.ArrayStorage
  */
@@ -18,6 +20,7 @@ public class MainTestArrayStorage {
         ARRAY_STORAGE.save(r2);
         ARRAY_STORAGE.save(r3);
         ARRAY_STORAGE.save(r1);
+        ARRAY_STORAGE.update(r1);
         ARRAY_STORAGE.update(r4);
 
         System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.uuid));
