@@ -20,6 +20,7 @@ public class MainTestArrayStorage {
         ARRAY_STORAGE.save(r2);
         ARRAY_STORAGE.save(r3);
         ARRAY_STORAGE.save(r1);
+        ARRAY_STORAGE.save(r4);
         ARRAY_STORAGE.update(r1);
         ARRAY_STORAGE.update(r4);
 
