@@ -14,13 +14,11 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         } else if (size >= STORAGE_LIMIT) {
             System.out.println("Storage overflow");
         } else {
-            System.out.println(-index - 1);
-
-            System.arraycopy(storage, -index - 1 , storage, -index, size + index + 1);
-            storage[-index - 1] = r;
+            int srcPos = -index - 1;
+            System.arraycopy(storage, srcPos, storage, -index, size + index + 1);
+            storage[srcPos] = r;
             size++;
         }
-
     }
 
     @Override
@@ -33,11 +31,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
             System.arraycopy(storage, index + 1, storage, index, size - index);
             storage[size] = null;
         }
-    }
-
-    @Override
-    public Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, size);
     }
 
     @Override
