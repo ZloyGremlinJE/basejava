@@ -8,8 +8,7 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public abstract class AbstractArrayStorage implements Storage {
-    protected static final int STORAGE_LIMIT = 10000;
-
+    protected static final int STORAGE_LIMIT = 3;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
@@ -47,17 +46,28 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected abstract int getIndex(String uuid);
 
+    // check save
     protected int checkSave(Resume r) {
-        int index = getIndex(r.getUuid());
-        if (getIndex(r.getUuid()) >= 0) {
-            System.out.println("Resume " + r.getUuid() + " already exist");
-            return -1;
-        }
-        if (size >= STORAGE_LIMIT) {
+        String uuid = r.getUuid();
+        int index = getIndex(uuid);
+        if (index >= 0) {
+            System.out.println("Resume " + uuid + " already exist");
+        } else if (size >= STORAGE_LIMIT) {
             System.out.println("Storage overflow");
-            return -1;
+        } else {
+            return index;
         }
+        return 0;
+    }
 
-        return index;
+    // check delete
+    protected int checkDelete(String uuid) {
+        int index = getIndex(uuid);
+        if (index < 0) {
+            System.out.println("Resume " + uuid + " not exist");
+        } else {
+            return index;
+        }
+        return -1;
     }
 }
