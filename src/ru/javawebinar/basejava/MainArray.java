@@ -1,5 +1,4 @@
 package ru.javawebinar.basejava;
-
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.storage.ArrayStorage;
 import ru.javawebinar.basejava.storage.Storage;
@@ -9,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Test for ru.javawebinar.basejava.storage.ArrayStorage
+ * Test for ru.javawebinar.basejava.storage.SortedArrayStorage
  */
 public class MainArray {
     private final static Storage ARRAY_STORAGE = new ArrayStorage();
