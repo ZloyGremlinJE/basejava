@@ -12,6 +12,7 @@ public abstract class AbstractArrayStorageTest {
     public AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
     }
+
     private Storage storage;
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
@@ -38,27 +39,36 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void update() throws Exception {
+        Resume expected = new Resume(UUID_1);
+        storage.update(expected);
+        Assert.assertEquals(expected, storage.get(UUID_1));
 
     }
 
     @Test
     public void getAll() throws Exception {
-        Resume [] mass = {new Resume(UUID_1), new Resume(UUID_2), new Resume(UUID_3)};
-        Assert.assertEquals(mass, storage.getAll());
+        Resume[] mass = {new Resume(UUID_1), new Resume(UUID_2), new Resume(UUID_3)};
+        Assert.assertArrayEquals(mass, storage.getAll());
     }
 
     @Test
     public void save() throws Exception {
-
+        Resume expected = new Resume("uuid4");
+        storage.save(expected);
+        Assert.assertEquals(expected, storage.get("uuid4"));
     }
 
-    @Test
-    public void delete() throws Exception {
 
+    @Test(expected = NotExistStorageException.class)
+    public void delete() throws Exception {
+        storage.delete(UUID_1);
+        storage.get(UUID_1);
     }
 
     @Test
     public void get() throws Exception {
+        Resume r = new Resume(UUID_1);
+        Assert.assertEquals(r, storage.get(UUID_1));
 
     }
 
@@ -66,9 +76,25 @@ public abstract class AbstractArrayStorageTest {
     public void getNotExist() throws Exception {
         storage.get("dummy");
     }
-    @Test (expected = ExistStorageException.class)
-    public  void getExist() throws  Exception {
+
+    @Test(expected = ExistStorageException.class)
+    public void getExist() throws Exception {
         Resume r = new Resume(UUID_1);
         storage.save(r);
     }
+
+    @Test (expected = StorageException.class)
+    public void getStorageOverflow() throws Exception {
+        try {
+            storage.save(new Resume("uuid_4"));
+            storage.save(new Resume("uuid_5"));
+        } catch (StorageException ex){
+            Assert.fail("Exception not expected");
+        }
+
+
+
+
+    }
+
 }
