@@ -17,6 +17,7 @@ public abstract class AbstractArrayStorageTest {
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
+    private static final String UUID_4 = "uuid4";
 
     @Before
     public void setUp() throws Exception {
@@ -53,9 +54,9 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void save() throws Exception {
-        Resume expected = new Resume("uuid4");
+        Resume expected = new Resume(UUID_4);
         storage.save(expected);
-        Assert.assertEquals(expected, storage.get("uuid4"));
+        Assert.assertEquals(expected, storage.get(UUID_4));
     }
 
 
@@ -83,18 +84,17 @@ public abstract class AbstractArrayStorageTest {
         storage.save(r);
     }
 
-    @Test (expected = StorageException.class)
+    @Test(expected = StorageException.class)
     public void getStorageOverflow() throws Exception {
+        storage.clear();
         try {
-            storage.save(new Resume("uuid_4"));
-            storage.save(new Resume("uuid_5"));
-        } catch (StorageException ex){
-            Assert.fail("Exception not expected");
+            for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
+                storage.save(new Resume());
+            }
+        } catch (StorageException ex) {
+            Assert.fail();
         }
-
-
-
-
+        storage.save(new Resume());
     }
 
 }
