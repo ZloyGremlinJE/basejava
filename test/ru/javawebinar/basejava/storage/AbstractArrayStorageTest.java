@@ -11,7 +11,7 @@ import ru.javawebinar.basejava.model.Resume;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public abstract class AbstractArrayStorageTest {
+public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
     private Storage storage;
 
     private static final String UUID_1 = "uuid1";
