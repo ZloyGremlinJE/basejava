@@ -35,13 +35,19 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume get(String uuid) {
-        int index = 0;
+        int index = getIndex(uuid);
+        if(index < 0 ){
+         throw new NotExistStorageException(uuid);
+        }
         return resumeArrayList.get(index);
     }
 
     @Override
     public void delete(String uuid) {
-        int index = 0;
+        int index = getIndex(uuid);
+        if(index < 0 ){
+            throw new NotExistStorageException(uuid);
+        }
         resumeArrayList.remove(index);
     }
 
@@ -53,5 +59,14 @@ public class ListStorage extends AbstractStorage {
     @Override
     public int size() {
         return resumeArrayList.size();
+    }
+
+    protected int getIndex(String uuid) {
+        for (int i = 0; i < size(); i++) {
+            if (uuid.equals(resumeArrayList.get(i).getUuid())) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
