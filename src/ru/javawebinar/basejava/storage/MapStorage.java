@@ -10,19 +10,29 @@ import java.util.Map;
 public class MapStorage extends AbstractStorage {
     protected Map<String, Resume> resumeHashMap = new HashMap<>();
 
-   @Override
+    @Override
+    protected boolean checkForNotExist() {
+        return false;
+    }
+
+    @Override
+    protected void doUpdate() {
+
+    }
+
+    @Override
     public void clear() {
         resumeHashMap.clear();
     }
 
-    @Override
+   /* @Override
     public void update(Resume r) {
         String uuid = r.getUuid();
         if (!resumeHashMap.containsValue(r)) {
             throw new NotExistStorageException(uuid);
         }
         resumeHashMap.put(uuid, r);
-    }
+    }*/
 
     @Override
     public void save(Resume r) {

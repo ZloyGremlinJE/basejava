@@ -14,7 +14,7 @@ public class ListStorage extends AbstractStorage {
         resumeArrayList.clear();
     }
 
-    @Override
+    /*@Override
     public void update(Resume r) {
         int index = resumeArrayList.indexOf(r);
         if (index == -1) {
@@ -22,7 +22,7 @@ public class ListStorage extends AbstractStorage {
         } else {
             resumeArrayList.set(index, r);
         }
-    }
+    }*/
 
     @Override
     public void save(Resume r) {
@@ -68,5 +68,15 @@ public class ListStorage extends AbstractStorage {
             }
         }
         return -1;
+    }
+
+    @Override
+    protected boolean checkForNotExist() {
+        return false;
+    }
+
+    @Override
+    protected void doUpdate() {
+
     }
 }
