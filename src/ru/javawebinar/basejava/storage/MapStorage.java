@@ -11,7 +11,10 @@ public class MapStorage extends AbstractStorage {
     protected Map<String, Resume> resumeHashMap = new HashMap<>();
 
     @Override
-    protected boolean checkForNotExist() {
+    protected boolean checkForNotExist(Resume r) {
+        if (!resumeHashMap.containsValue(r)) {
+            return true;
+        }
         return false;
     }
 

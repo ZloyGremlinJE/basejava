@@ -71,7 +71,11 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean checkForNotExist() {
+    protected boolean checkForNotExist(Resume r) {
+        int index = resumeArrayList.indexOf(r);
+        if (index == -1){
+            return  true;
+        }
         return false;
     }
 
