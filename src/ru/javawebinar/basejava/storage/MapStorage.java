@@ -11,36 +11,23 @@ public class MapStorage extends AbstractStorage {
     protected Map<String, Resume> resumeHashMap = new HashMap<>();
 
     @Override
-    protected boolean checkForNotExist(Resume r) {
-        if (!resumeHashMap.containsValue(r)) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    protected void doUpdate() {
-
-    }
-
-    @Override
     public void clear() {
         resumeHashMap.clear();
     }
 
-   /* @Override
+    @Override // MapStorage
     public void update(Resume r) {
         String uuid = r.getUuid();
-        if (!resumeHashMap.containsValue(r)) {
+        if (!resumeHashMap.containsKey(uuid)) {
             throw new NotExistStorageException(uuid);
         }
         resumeHashMap.put(uuid, r);
-    }*/
+    }
 
     @Override
     public void save(Resume r) {
         String uuid = r.getUuid();
-        if (resumeHashMap.containsValue(r)) {
+        if (resumeHashMap.containsKey(uuid)) {
             throw new ExistStorageException(uuid);
         }
         resumeHashMap.put(uuid, r);
