@@ -15,14 +15,14 @@ public class MapStorage extends AbstractStorage {
         resumeHashMap.clear();
     }
 
-    @Override // MapStorage
+   /* @Override // MapStorage
     public void update(Resume r) {
         String uuid = r.getUuid();
         if (!resumeHashMap.containsKey(uuid)) {
             throw new NotExistStorageException(uuid);
         }
         resumeHashMap.put(uuid, r);
-    }
+    }*/
 
     @Override
     public void save(Resume r) {
@@ -58,5 +58,17 @@ public class MapStorage extends AbstractStorage {
     @Override
     public int size() {
         return resumeHashMap.size();
+    }
+
+    @Override
+    protected boolean checkForExist(Resume r) {
+        String uuid = r.getUuid();
+       return resumeHashMap.containsKey(uuid);
+
+    }
+
+    @Override
+    protected void doUpdate(Resume r) {
+        resumeHashMap.put(r.getUuid(), r);
     }
 }

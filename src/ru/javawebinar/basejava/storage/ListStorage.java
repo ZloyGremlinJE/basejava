@@ -8,13 +8,13 @@ import java.util.ArrayList;
 
 public class ListStorage extends AbstractStorage {
     protected ArrayList<Resume> resumeArrayList = new ArrayList<>();
-
+    protected int searchIndex;
     @Override
     public void clear() {
         resumeArrayList.clear();
     }
 
-    @Override //ListStorage
+    /*@Override //ListStorage
     public void update(Resume r) {
         int index = resumeArrayList.indexOf(r);
         if (index == -1) {
@@ -22,7 +22,7 @@ public class ListStorage extends AbstractStorage {
         } else {
             resumeArrayList.set(index, r);
         }
-    }
+    }*/
 
     @Override
     public void save(Resume r) {
@@ -70,4 +70,13 @@ public class ListStorage extends AbstractStorage {
         return -1;
     }
 
+    @Override
+    protected boolean checkForExist(Resume r) {
+        return resumeArrayList.contains(r);
+    }
+
+    @Override
+    protected void doUpdate(Resume r) {
+        resumeArrayList.set(searchIndex, r);
+    }
 }
