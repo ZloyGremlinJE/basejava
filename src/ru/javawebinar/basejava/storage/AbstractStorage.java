@@ -10,7 +10,7 @@ public abstract class AbstractStorage implements Storage {
     public void update(Resume r) {
         // get searchIndex and check for not exist
         int searchIndex = getSearchIndex(r.getUuid());
-        if (searchIndex == -1) {
+        if (searchIndex < 0) {
             throw new NotExistStorageException(r.getUuid());
         }
         //update
@@ -25,14 +25,14 @@ public abstract class AbstractStorage implements Storage {
             throw new ExistStorageException(r.getUuid());
         }
         //save
-        doSave(r);
+        doSave(searchIndex, r);
     }
 
     @Override
     public Resume get(String uuid) {
         // get searchIndex and check for not exist
         int searchIndex = getSearchIndex(uuid);
-        if (searchIndex == -1) {
+        if (searchIndex < 0) {
             throw new NotExistStorageException(uuid);
         }
         //get
@@ -43,7 +43,7 @@ public abstract class AbstractStorage implements Storage {
     public void delete(String uuid) {
         // get searchIndex and check for not exist
         int searchIndex = getSearchIndex(uuid);
-        if (searchIndex == -1) {
+        if (searchIndex < 0) {
             throw new NotExistStorageException(uuid);
         }
         // delete
@@ -53,7 +53,7 @@ public abstract class AbstractStorage implements Storage {
 
     abstract protected void doUpdate(int searchIndex, Resume r);
 
-    abstract protected void doSave(Resume r);
+    abstract protected void doSave(int searchIndex, Resume r);
 
     abstract protected int getSearchIndex(String uuid);
 
