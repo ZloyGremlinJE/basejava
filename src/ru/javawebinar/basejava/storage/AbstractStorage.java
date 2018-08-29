@@ -2,18 +2,62 @@ package ru.javawebinar.basejava.storage;
 
 
 import ru.javawebinar.basejava.exception.ExistStorageException;
+import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
     @Override
     public void update(Resume r) {
-        //check for exist
-        if(!checkForExist(r)){
-            throw new ExistStorageException(r.getUuid());
+        // get searchIndex and check for not exist
+        int searchIndex = getSearchIndex(r.getUuid());
+        if (searchIndex == -1) {
+            throw new NotExistStorageException(r.getUuid());
         }
         //update
-        doUpdate(r);
+        doUpdate(searchIndex, r);
     }
-    abstract protected boolean checkForExist(Resume r);
-    abstract protected void doUpdate(Resume r);
+
+    @Override
+    public void save(Resume r) {
+        // get searchIndex and check for exist
+        int searchIndex = getSearchIndex(r.getUuid());
+        if (searchIndex >= 0) {
+            throw new ExistStorageException(r.getUuid());
+        }
+        //save
+        doSave(r);
+    }
+
+    @Override
+    public Resume get(String uuid) {
+        // get searchIndex and check for not exist
+        int searchIndex = getSearchIndex(uuid);
+        if (searchIndex == -1) {
+            throw new NotExistStorageException(uuid);
+        }
+        //get
+        return doGet(searchIndex, uuid);
+    }
+
+    @Override
+    public void delete(String uuid) {
+        // get searchIndex and check for not exist
+        int searchIndex = getSearchIndex(uuid);
+        if (searchIndex == -1) {
+            throw new NotExistStorageException(uuid);
+        }
+        // delete
+        doDelete(searchIndex, uuid);
+
+    }
+
+    abstract protected void doUpdate(int searchIndex, Resume r);
+
+    abstract protected void doSave(Resume r);
+
+    abstract protected int getSearchIndex(String uuid);
+
+    abstract protected Resume doGet(int searchIndex, String uuid);
+
+    abstract protected void doDelete(int searchIndex, String uuid);
 }

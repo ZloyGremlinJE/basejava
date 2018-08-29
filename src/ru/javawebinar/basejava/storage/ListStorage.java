@@ -1,54 +1,15 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
-import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.ArrayList;
 
 public class ListStorage extends AbstractStorage {
     protected ArrayList<Resume> resumeArrayList = new ArrayList<>();
-    protected int searchIndex;
+
     @Override
     public void clear() {
         resumeArrayList.clear();
-    }
-
-    /*@Override //ListStorage
-    public void update(Resume r) {
-        int index = resumeArrayList.indexOf(r);
-        if (index == -1) {
-            throw new NotExistStorageException(r.getUuid());
-        } else {
-            resumeArrayList.set(index, r);
-        }
-    }*/
-
-    @Override
-    public void save(Resume r) {
-        if (resumeArrayList.contains(r)) {
-            throw new ExistStorageException(r.getUuid());
-        } else {
-            resumeArrayList.add(r);
-        }
-    }
-
-    @Override
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return resumeArrayList.get(index);
-    }
-
-    @Override
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        resumeArrayList.remove(index);
     }
 
     @Override
@@ -61,7 +22,13 @@ public class ListStorage extends AbstractStorage {
         return resumeArrayList.size();
     }
 
-    protected int getIndex(String uuid) {
+    @Override
+    protected void doUpdate(int searchIndex, Resume r) {
+        resumeArrayList.set(searchIndex, r);
+    }
+
+    @Override
+    protected int getSearchIndex(String uuid) {
         for (int i = 0; i < size(); i++) {
             if (uuid.equals(resumeArrayList.get(i).getUuid())) {
                 return i;
@@ -71,12 +38,17 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean checkForExist(Resume r) {
-        return resumeArrayList.contains(r);
+    protected void doSave(Resume r) {
+        resumeArrayList.add(r);
     }
 
     @Override
-    protected void doUpdate(Resume r) {
-        resumeArrayList.set(searchIndex, r);
+    protected Resume doGet(int searchIndex, String uuid) {
+        return resumeArrayList.get(searchIndex);
+    }
+
+    @Override
+    protected void doDelete(int searchIndex, String uuid) {
+        resumeArrayList.remove(searchIndex);
     }
 }

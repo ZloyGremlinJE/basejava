@@ -1,7 +1,5 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
-import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.HashMap;
@@ -15,41 +13,6 @@ public class MapStorage extends AbstractStorage {
         resumeHashMap.clear();
     }
 
-   /* @Override // MapStorage
-    public void update(Resume r) {
-        String uuid = r.getUuid();
-        if (!resumeHashMap.containsKey(uuid)) {
-            throw new NotExistStorageException(uuid);
-        }
-        resumeHashMap.put(uuid, r);
-    }*/
-
-    @Override
-    public void save(Resume r) {
-        String uuid = r.getUuid();
-        if (resumeHashMap.containsKey(uuid)) {
-            throw new ExistStorageException(uuid);
-        }
-        resumeHashMap.put(uuid, r);
-
-    }
-
-    @Override
-    public Resume get(String uuid) {
-        if (!resumeHashMap.containsKey(uuid)) {
-            throw new NotExistStorageException(uuid);
-        }
-        return resumeHashMap.get(uuid);
-    }
-
-    @Override
-    public void delete(String uuid) {
-        if (!resumeHashMap.containsKey(uuid)) {
-            throw new NotExistStorageException(uuid);
-        }
-        resumeHashMap.remove(uuid);
-    }
-
     @Override
     public Resume[] getAll() {
         return resumeHashMap.values().toArray(new Resume[size()]);
@@ -60,15 +23,32 @@ public class MapStorage extends AbstractStorage {
         return resumeHashMap.size();
     }
 
-    @Override
-    protected boolean checkForExist(Resume r) {
-        String uuid = r.getUuid();
-       return resumeHashMap.containsKey(uuid);
 
+    @Override
+    protected void doUpdate(int searchIndex, Resume r) {
+        resumeHashMap.put(r.getUuid(), r);
     }
 
     @Override
-    protected void doUpdate(Resume r) {
+    protected int getSearchIndex(String uuid) {
+        if (resumeHashMap.containsKey(uuid)) {
+            return 0;
+        }
+        return -1;
+    }
+
+    @Override
+    protected void doSave(Resume r) {
         resumeHashMap.put(r.getUuid(), r);
+    }
+
+    @Override
+    protected Resume doGet(int searchIndex, String uuid) {
+        return resumeHashMap.get(uuid);
+    }
+
+    @Override
+    protected void doDelete(int searchIndex, String uuid) {
+        resumeHashMap.remove(uuid);
     }
 }

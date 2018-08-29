@@ -77,4 +77,6 @@ public abstract class AbstractArrayStorage implements Storage {
     protected abstract void insertElement(Resume r, int index);
 
     protected abstract int getIndex(String uuid);
+
+
 }
