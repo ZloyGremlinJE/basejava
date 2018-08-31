@@ -30,7 +30,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected int getSearchIndex(String uuid) {
+    protected int getSearchKey(String uuid) {
         if (resumeHashMap.containsKey(uuid)) {
             return 0;
         }
