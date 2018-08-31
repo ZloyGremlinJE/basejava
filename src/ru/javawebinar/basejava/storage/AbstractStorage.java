@@ -7,25 +7,25 @@ import ru.javawebinar.basejava.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
     @Override
-    public void update(Resume r) {
+    public void update(Resume resume) {
         // get searchIndex and check for not exist
-        int searchIndex = getSearchKey(r.getUuid());
+        int searchIndex = getSearchKey(resume.getUuid());
         if (searchIndex < 0) {
-            throw new NotExistStorageException(r.getUuid());
+            throw new NotExistStorageException(resume.getUuid());
         }
         //update
-        doUpdate(searchIndex, r);
+        doUpdate(searchIndex, resume);
     }
 
     @Override
-    public void save(Resume r) {
+    public void save(Resume resume) {
         // get searchIndex and check for exist
-        int searchIndex = getSearchKey(r.getUuid());
+        int searchIndex = getSearchKey(resume.getUuid());
         if (searchIndex >= 0) {
-            throw new ExistStorageException(r.getUuid());
+            throw new ExistStorageException(resume.getUuid());
         }
         //save
-        doSave(searchIndex, r);
+        doSave(searchIndex, resume);
     }
 
     @Override
@@ -51,9 +51,9 @@ public abstract class AbstractStorage implements Storage {
 
     }
 
-    abstract protected void doUpdate(int searchIndex, Resume r);
+    abstract protected void doUpdate(int searchIndex, Resume resume);
 
-    abstract protected void doSave(int searchIndex, Resume r);
+    abstract protected void doSave(int searchIndex, Resume resume);
 
     abstract protected int getSearchKey(String uuid);
 

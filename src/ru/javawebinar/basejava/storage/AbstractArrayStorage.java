@@ -31,8 +31,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doUpdate(int searchIndex, Resume r) {
-        storage[searchIndex] = r;
+    protected void doUpdate(int searchIndex, Resume resume) {
+        storage[searchIndex] = resume;
     }
 
     @Override
@@ -48,18 +48,18 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doSave(int searchIndex, Resume r) {
+    protected void doSave(int searchIndex, Resume resume) {
         if (size == STORAGE_LIMIT) {
-            throw new StorageException("Storage overflow", r.getUuid());
+            throw new StorageException("Storage overflow", resume.getUuid());
         } else {
-            insertElement(r, searchIndex);
+            insertElement(resume, searchIndex);
             size++;
         }
     }
 
     protected abstract void fillDeletedElement(int index);
 
-    protected abstract void insertElement(Resume r, int index);
+    protected abstract void insertElement(Resume resume, int index);
 
 
 }

@@ -23,8 +23,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doUpdate(int searchIndex, Resume r) {
-        resumeArrayList.set(searchIndex, r);
+    protected void doUpdate(int searchIndex, Resume resume) {
+        resumeArrayList.set(searchIndex, resume);
     }
 
     @Override
@@ -38,8 +38,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doSave(int searchIndex, Resume r) {
-        resumeArrayList.add(r);
+    protected void doSave(int searchIndex, Resume resume) {
+        resumeArrayList.add(resume);
     }
 
     @Override
