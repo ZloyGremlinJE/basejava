@@ -8,7 +8,7 @@ import ru.javawebinar.basejava.model.Resume;
 public abstract class AbstractStorage implements Storage {
     @Override
     public void update(Resume resume) {
-        // get searchIndex and check for not exist
+        // get SearchKey and check for not exist
         int searchIndex = getSearchKey(resume.getUuid());
         if (searchIndex < 0) {
             throw new NotExistStorageException(resume.getUuid());
@@ -19,7 +19,7 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        // get searchIndex and check for exist
+        // get searchKey and check for exist
         int searchIndex = getSearchKey(resume.getUuid());
         if (searchIndex >= 0) {
             throw new ExistStorageException(resume.getUuid());
@@ -30,7 +30,7 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public Resume get(String uuid) {
-        // get searchIndex and check for not exist
+        // get searchKey and check for not exist
         int searchIndex = getSearchKey(uuid);
         if (searchIndex < 0) {
             throw new NotExistStorageException(uuid);
@@ -41,7 +41,7 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void delete(String uuid) {
-        // get searchIndex and check for not exist
+        // get searchKey and check for not exist
         int searchIndex = getSearchKey(uuid);
         if (searchIndex < 0) {
             throw new NotExistStorageException(uuid);
