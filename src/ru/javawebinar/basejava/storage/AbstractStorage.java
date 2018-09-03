@@ -9,55 +9,59 @@ public abstract class AbstractStorage implements Storage {
     @Override
     public void update(Resume resume) {
         // get SearchKey and check for not exist
-        int searchIndex = getSearchKey(resume.getUuid());
-        if (searchIndex < 0) {
-            throw new NotExistStorageException(resume.getUuid());
-        }
+        int searchKey = checkForNotExist(resume.getUuid());
         //update
-        doUpdate(searchIndex, resume);
+        doUpdate(searchKey, resume);
     }
 
     @Override
     public void save(Resume resume) {
         // get searchKey and check for exist
-        int searchIndex = getSearchKey(resume.getUuid());
-        if (searchIndex >= 0) {
-            throw new ExistStorageException(resume.getUuid());
-        }
+        int searchKey = checkForExist(resume.getUuid());
         //save
-        doSave(searchIndex, resume);
+        doSave(searchKey, resume);
     }
 
     @Override
     public Resume get(String uuid) {
         // get searchKey and check for not exist
-        int searchIndex = getSearchKey(uuid);
-        if (searchIndex < 0) {
-            throw new NotExistStorageException(uuid);
-        }
+        int searchKey = checkForNotExist(uuid);
         //get
-        return doGet(searchIndex, uuid);
+        return doGet(searchKey, uuid);
     }
 
     @Override
     public void delete(String uuid) {
         // get searchKey and check for not exist
-        int searchIndex = getSearchKey(uuid);
-        if (searchIndex < 0) {
-            throw new NotExistStorageException(uuid);
-        }
+        int searchKey = checkForNotExist(uuid);
         // delete
-        doDelete(searchIndex, uuid);
+        doDelete(searchKey, uuid);
 
     }
 
-    abstract protected void doUpdate(int searchIndex, Resume resume);
+    protected int checkForExist(String uuid) {
+        int searchKey = getSearchKey(uuid);
+        if (searchKey >= 0) {
+            throw new ExistStorageException(uuid);
+        }
+        return searchKey;
+    }
 
-    abstract protected void doSave(int searchIndex, Resume resume);
+    protected int checkForNotExist(String uuid) {
+        int searchKey = getSearchKey(uuid);
+        if (searchKey < 0) {
+            throw new NotExistStorageException(uuid);
+        }
+        return searchKey;
+    }
+
+    abstract protected void doUpdate(int searchKey, Resume resume);
+
+    abstract protected void doSave(int searchKey, Resume resume);
 
     abstract protected int getSearchKey(String uuid);
 
-    abstract protected Resume doGet(int searchIndex, String uuid);
+    abstract protected Resume doGet(int searchKey, String uuid);
 
-    abstract protected void doDelete(int searchIndex, String uuid);
+    abstract protected void doDelete(int searchKey, String uuid);
 }
