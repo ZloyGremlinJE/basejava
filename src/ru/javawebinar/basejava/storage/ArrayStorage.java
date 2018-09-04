@@ -18,7 +18,7 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected int getSearchKey(String uuid) {
+    protected Object getSearchKey(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].getUuid())) {
                 return i;
@@ -27,5 +27,8 @@ public class ArrayStorage extends AbstractArrayStorage {
         return -1;
     }
 
-
+    @Override
+    protected boolean checkExist(Object searchKey) {
+        return (Integer)searchKey >= 0;
+    }
 }

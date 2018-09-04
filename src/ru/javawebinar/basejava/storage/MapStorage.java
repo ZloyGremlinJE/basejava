@@ -25,30 +25,35 @@ public class MapStorage extends AbstractStorage {
 
 
     @Override
-    protected void doUpdate(int searchKey, Resume resume) {
+    protected void doUpdate(Object searchKey, Resume resume) {
         resumeHashMap.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected int getSearchKey(String uuid) {
+    protected Object getSearchKey(String uuid) {
         if (resumeHashMap.containsKey(uuid)) {
-            return 0;
+            return uuid;
         }
-        return -1;
+        return null;
     }
 
     @Override
-    protected void doSave(int searchKey, Resume resume) {
+    protected void doSave(Object searchKey, Resume resume) {
         resumeHashMap.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected Resume doGet(int searchKey, String uuid) {
-        return resumeHashMap.get(uuid);
+    protected Resume doGet(Object searchKey) {
+        return resumeHashMap.get(searchKey);
     }
 
     @Override
-    protected void doDelete(int searchKey, String uuid) {
-        resumeHashMap.remove(uuid);
+    protected void doDelete(Object searchKey) {
+        resumeHashMap.remove(searchKey);
+    }
+
+    @Override
+    protected boolean checkExist(Object searchKey) {
+        return searchKey != null;
     }
 }
