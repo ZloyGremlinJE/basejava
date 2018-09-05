@@ -49,7 +49,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void doDelete(Object searchIndex) {
-        resumeArrayList.remove(searchIndex);
+        resumeArrayList.remove(((Integer) searchIndex).intValue());
     }
 
     @Override
