@@ -23,6 +23,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
+    @Override
+    protected void doUpdate(Resume r, Object index) {
+        storage[(Integer) index] = r;
+    }
+
     /**
      * @return array, contains only Resumes in storage (without null)
      */
@@ -31,35 +36,34 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doUpdate(Object searchIndex, Resume resume) {
-        storage[(Integer) searchIndex] = resume;
-    }
-
-    @Override
-    protected Resume doGet(Object searchIndex) {
-        return storage[(Integer) searchIndex];
-    }
-
-    @Override
-    protected void doDelete(Object searchIndex) {
-        fillDeletedElement((Integer) searchIndex);
-        storage[size - 1] = null;
-        size--;
-    }
-
-    @Override
-    protected void doSave(Object searchIndex, Resume resume) {
+    protected void doSave(Resume r, Object index) {
         if (size == STORAGE_LIMIT) {
-            throw new StorageException("Storage overflow", resume.getUuid());
+            throw new StorageException("Storage overflow", r.getUuid());
         } else {
-            insertElement(resume, (Integer) searchIndex);
+            insertElement(r, (Integer) index);
             size++;
         }
     }
 
+    @Override
+    public void doDelete(Object index) {
+        fillDeletedElement((Integer) index);
+        storage[size - 1] = null;
+        size--;
+    }
+
+    public Resume doGet(Object index) {
+        return storage[(Integer) index];
+    }
+
+    @Override
+    protected boolean isExist(Object index) {
+        return (Integer) index >= 0;
+    }
+
     protected abstract void fillDeletedElement(int index);
 
-    protected abstract void insertElement(Resume resume, int index);
+    protected abstract void insertElement(Resume r, int index);
 
-
+    protected abstract Integer getSearchKey(String uuid);
 }

@@ -25,7 +25,7 @@ public class MapStorage extends AbstractStorage {
 
 
     @Override
-    protected void doUpdate(Object searchKey, Resume resume) {
+    protected void doUpdate(Resume resume, Object searchKey) {
         resumeHashMap.put(resume.getUuid(), resume);
     }
 
@@ -38,7 +38,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doSave(Object searchKey, Resume resume) {
+    protected void doSave(Resume resume, Object searchKey) {
         resumeHashMap.put(resume.getUuid(), resume);
     }
 
@@ -53,7 +53,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean checkExist(Object searchKey) {
+    protected boolean isExist(Object searchKey) {
         return searchKey != null;
     }
 }
