@@ -13,7 +13,7 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
         this.storage = storage;
     }
 
-    // TODO remain only for Arrays implementations
+    //only for Arrays implementations
     @Test(expected = StorageException.class)
     public void saveOverflow() throws Exception {
         try {

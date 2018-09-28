@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+// MapStorage with search key not uuid
 public class MapStorage extends AbstractStorage {
     protected Map<String, Resume> resumeHashMap = new HashMap<>();
 
@@ -17,7 +19,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public List<Resume> getAllSorted() {
-        List <Resume> copy = new ArrayList<>(resumeHashMap.values());
+        List<Resume> copy = new ArrayList<>(resumeHashMap.values());
         return copy;
     }
 
@@ -29,15 +31,13 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
-        resumeHashMap.put(resume.getUuid(), resume);
+        String uuid = ((Resume) searchKey).getUuid();
+        resumeHashMap.put(uuid, resume);
     }
 
     @Override
-    protected String getSearchKey(String uuid) {
-        if (resumeHashMap.containsKey(uuid)) {
-            return uuid;
-        }
-        return null;
+    protected Resume getSearchKey(String uuid) {
+        return resumeHashMap.get(uuid);
     }
 
     @Override
@@ -47,12 +47,14 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return resumeHashMap.get(searchKey);
+        String uuid = ((Resume) searchKey).getUuid();
+        return resumeHashMap.get(uuid);
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        resumeHashMap.remove(searchKey);
+        String uuid = ((Resume) searchKey).getUuid();
+        resumeHashMap.remove(uuid);
     }
 
     @Override
