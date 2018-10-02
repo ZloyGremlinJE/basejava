@@ -2,7 +2,7 @@ package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.storage.AbstractStorage;
-import ru.javawebinar.basejava.storage.ListStorage;
+import ru.javawebinar.basejava.storage.SortedArrayStorage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,13 +13,13 @@ import java.util.List;
  * Test for ru.javawebinar.basejava.storage.ArrayStorage
  */
 public class MainArray {
-    private final static AbstractStorage ARRAY_STORAGE = new ListStorage();
+    private final static AbstractStorage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Resume resume;
         while (true) {
-            System.out.print("Введите одну из команд - (list | save uuid | delete uuid | get uuid | update uuid | clear | exit): ");
+            System.out.print("Введите одну из команд - (list | save uuid, fullName | delete uuid | get uuid | update uuid | clear | exit): ");
             String[] params = reader.readLine().trim().toLowerCase().split(" ");
             if (params.length < 1 || params.length > 2) {
                 System.out.println("Неверная команда.");
@@ -37,12 +37,14 @@ public class MainArray {
                     System.out.println(ARRAY_STORAGE.size());
                     break;
                 case "save":
-                    resume = new Resume(uuid);
+                    System.out.println("full name: ");
+                    String fullName = reader.readLine();
+                    resume = new Resume(uuid, fullName);
                     ARRAY_STORAGE.save(resume);
                     printAll();
                     break;
                 case "update":
-                    resume = new Resume(uuid);
+                    resume = new Resume(uuid, "empty");
                     ARRAY_STORAGE.update(resume);
                     printAll();
                     break;
