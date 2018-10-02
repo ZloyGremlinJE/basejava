@@ -10,51 +10,50 @@ import java.util.Map;
 
 // MapStorage with search key not uuid
 public class MapStorage extends AbstractStorage {
-    protected Map<String, Resume> resumeHashMap = new HashMap<>();
+    protected Map<String, Resume> map = new HashMap<>();
 
     @Override
     public void clear() {
-        resumeHashMap.clear();
+        map.clear();
     }
 
     @Override
     public List<Resume> getAllSorted() {
-        List<Resume> copy = new ArrayList<>(resumeHashMap.values());
-        return copy;
+        return new ArrayList<>(map.values());
     }
 
     @Override
     public int size() {
-        return resumeHashMap.size();
+        return map.size();
     }
 
 
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
         String uuid = ((Resume) searchKey).getUuid();
-        resumeHashMap.put(uuid, resume);
+        map.put(uuid, resume);
     }
 
     @Override
     protected Resume getSearchKey(String uuid) {
-        return resumeHashMap.get(uuid);
+        return map.get(uuid);
     }
 
     @Override
     protected void doSave(Resume resume, Object searchKey) {
-        resumeHashMap.put(resume.getUuid(), resume);
+        map.put(resume.getUuid(), resume);
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
         String uuid = ((Resume) searchKey).getUuid();
-        return resumeHashMap.get(uuid);
+        return map.get(uuid);
     }
 
     @Override
     protected void doDelete(Object searchKey) {
         String uuid = ((Resume) searchKey).getUuid();
-        resumeHashMap.remove(uuid);
+        map.remove(uuid);
     }
 
     @Override
