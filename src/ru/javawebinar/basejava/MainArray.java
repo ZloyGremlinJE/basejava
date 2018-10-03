@@ -44,7 +44,9 @@ public class MainArray {
                     printAll();
                     break;
                 case "update":
-                    resume = new Resume(uuid, "empty");
+                    System.out.println("full name: ");
+                    fullName = reader.readLine();
+                    resume = new Resume(uuid, fullName);
                     ARRAY_STORAGE.update(resume);
                     printAll();
                     break;
