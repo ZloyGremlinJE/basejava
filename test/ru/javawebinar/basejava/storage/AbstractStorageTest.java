@@ -75,7 +75,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAll() throws Exception {
         List<Resume> array = storage.getAllSorted();
-        array.sort(Resume::compareTo);
+        array.sort(AbstractStorage.RESUME_COMPARATOR);
         assertEquals(3, array.size());
         assertEquals(RESUME_1, array.get(0));
         assertEquals(RESUME_2, array.get(1));
