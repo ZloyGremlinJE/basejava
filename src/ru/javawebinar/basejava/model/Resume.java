@@ -6,7 +6,7 @@ import java.util.UUID;
 /**
  * ru.javawebinar.basejava.model.Resume class
  */
-public class Resume  {
+public class Resume {
 
     // Unique identifier
     private final String uuid;
@@ -49,9 +49,5 @@ public class Resume  {
         return fullName;
     }
 
-    /*@Override
-    public int compareTo(Resume o) {
-        int result = fullName.compareTo(o.fullName);
-        return result == 0 ? uuid.compareTo(o.uuid) : result;
-    }*/
+
 }
