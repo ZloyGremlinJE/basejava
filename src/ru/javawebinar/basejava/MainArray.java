@@ -2,7 +2,7 @@ package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.storage.AbstractStorage;
-import ru.javawebinar.basejava.storage.SortedArrayStorage;
+import ru.javawebinar.basejava.storage.ListStorage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.util.List;
  * Test for ru.javawebinar.basejava.storage.ArrayStorage
  */
 public class MainArray {
-    private final static AbstractStorage ARRAY_STORAGE = new SortedArrayStorage();
+    private final static AbstractStorage ARRAY_STORAGE = new ListStorage();
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
