@@ -35,9 +35,10 @@ public class Resume {
                 Objects.equals(fullName, resume.fullName);
     }
 
+
     @Override
     public int hashCode() {
-        return uuid.hashCode() + fullName.hashCode();
+        return Objects.hash(uuid, fullName);
     }
 
     @Override
