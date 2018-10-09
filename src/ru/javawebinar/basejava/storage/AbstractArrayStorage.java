@@ -32,7 +32,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    public List<Resume> getList() {
+    public List<Resume> getCopyList() {
         return  Arrays.asList(Arrays.copyOf(storage, size));
     }
 

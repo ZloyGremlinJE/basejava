@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 
-// MapStorage with search key not uuid
-public class MapStorage extends AbstractStorage {
+// MapResumeStorage with search key not uuid
+public class MapResumeStorage extends AbstractStorage {
     protected Map<String, Resume> map = new HashMap<>();
 
     @Override
@@ -18,7 +18,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getList() {
+    public List<Resume> getCopyList() {
         return new ArrayList<>(map.values());
     }
 
