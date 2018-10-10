@@ -1,10 +1,9 @@
 package ru.javawebinar.basejava.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ListSection extends Section  {
-   public List<String> list = new ArrayList<>();
+   protected List<String> list;
 
     public ListSection(List<String> list) {
         this.list = list;
