@@ -42,15 +42,6 @@ public class MainDomenModelOfResume {
         resume.section.put(SectionType.EXPERIENCE, section);
 
 
-
-
-
-
-
-
-
-
-
        //out
         System.out.println(resume.getFullName());
 

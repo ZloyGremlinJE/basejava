@@ -20,8 +20,8 @@ public class Company {
     @Override
     public String toString() {
         return "Company{" +
-                "url='" + place + '\'' +
-                ", place='" + url + '\'' +
+                "place='" + place + '\'' +
+                ", url='" + url + '\'' +
                 ", date='" + date + '\'' +
                 ", position='" + position + '\'' +
                 ", aboutPosition='" + aboutPosition + '\'' +
