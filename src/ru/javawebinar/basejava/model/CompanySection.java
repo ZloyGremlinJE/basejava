@@ -3,11 +3,12 @@ package ru.javawebinar.basejava.model;
 import java.util.List;
 import java.util.Objects;
 
-public class ListSection extends Section  {
-   protected List<String> list;
+public class CompanySection extends Section {
+   protected List<Company>  list;
 
-    public ListSection(List<String> list) {
+    public CompanySection(List<Company> list) {
         this.list = list;
+
     }
 
     @Override
@@ -19,7 +20,7 @@ public class ListSection extends Section  {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ListSection that = (ListSection) o;
+        CompanySection that = (CompanySection) o;
         return Objects.equals(list, that.list);
     }
 

@@ -20,30 +20,37 @@ public class MainDomenModelOfResume {
         List<String> achievements = new ArrayList<>();
         achievements.add("Достижение1");
         achievements.add("Достижение2");
+        Section section = new ListSection(achievements);
+        resume.section.put(SectionType.ACHIEVEMENT, section);
 
         List<String>  qualifications = new ArrayList<>();
         qualifications.add("Квалификация1");
         qualifications.add("Квалификация2");
-
-        List<WorkStudyPlace> worksPlaces = new ArrayList<>();
-        worksPlaces.add(new WorkStudyPlace("Work1", "Date1", "Position1", "AboutPosition1"));
-        worksPlaces.add(new WorkStudyPlace("Work2", "Date2", "Position2", "AboutPosition2"));
-
-        List<WorkStudyPlace> studyPlaces = new ArrayList<>();
-        studyPlaces.add(new WorkStudyPlace("Study1", "Date1", "Position1", "AboutPosition1"));
-        studyPlaces.add(new WorkStudyPlace("Study2", "Date2", "Position2", "AboutPosition2"));
-
-        Section section = new ListSection(achievements);
-        resume.section.put(SectionType.ACHIEVEMENT, section);
-
         section = new ListSection(qualifications);
         resume.section.put(SectionType.QUALIFICATIONS, section);
 
-        section = new WorkStudySection(studyPlaces);
+        List<Company> worksPlaces = new ArrayList<>();
+        worksPlaces.add(new Company("Work1", "url1", "Date1", "Position1", "AboutPosition1"));
+        worksPlaces.add(new Company("Work2", "url2","Date2", "Position2", "AboutPosition2"));
+        section = new CompanySection(worksPlaces);
         resume.section.put(SectionType.EDUCATION, section);
 
-        section = new WorkStudySection(worksPlaces);
+        List<Company> studyPlaces = new ArrayList<>();
+        studyPlaces.add(new Company("Study1", "url3","Date1", "Position1", "AboutPosition1"));
+        studyPlaces.add(new Company("Study2", "url4", "Date2", "Position2", "AboutPosition2"));
+        section = new CompanySection(studyPlaces);
         resume.section.put(SectionType.EXPERIENCE, section);
+
+
+
+
+
+
+
+
+
+
+
        //out
         System.out.println(resume.getFullName());
 
