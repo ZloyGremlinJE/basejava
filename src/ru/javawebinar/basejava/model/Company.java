@@ -1,18 +1,21 @@
 package ru.javawebinar.basejava.model;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Company {
-    private  String place;
+    private  String name;
     private String url;
-    private String date;
+    private LocalDate dateFrom;
+    private LocalDate dateTo;
     private String position;
     private String aboutPosition;
 
-    public Company(String place, String url, String date, String position, String aboutPosition) {
-        this.place = place;
+    public Company(String name, String url, LocalDate dateFrom, LocalDate dateTo, String position, String aboutPosition) {
+        this.name = name;
         this.url = url;
-        this.date = date;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
         this.position = position;
         this.aboutPosition = aboutPosition;
     }
@@ -20,9 +23,10 @@ public class Company {
     @Override
     public String toString() {
         return "Company{" +
-                "place='" + place + '\'' +
+                "name='" + name + '\'' +
                 ", url='" + url + '\'' +
-                ", date='" + date + '\'' +
+                ", dateFrom=" + dateFrom +
+                ", dateTo=" + dateTo +
                 ", position='" + position + '\'' +
                 ", aboutPosition='" + aboutPosition + '\'' +
                 '}';
@@ -33,15 +37,16 @@ public class Company {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Company company = (Company) o;
-        return Objects.equals(url, company.url) &&
-                Objects.equals(place, company.place) &&
-                Objects.equals(date, company.date) &&
+        return Objects.equals(name, company.name) &&
+                Objects.equals(url, company.url) &&
+                Objects.equals(dateFrom, company.dateFrom) &&
+                Objects.equals(dateTo, company.dateTo) &&
                 Objects.equals(position, company.position) &&
                 Objects.equals(aboutPosition, company.aboutPosition);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(url, place, date, position, aboutPosition);
+        return Objects.hash(name, url, dateFrom, dateTo, position, aboutPosition);
     }
 }

@@ -3,10 +3,18 @@ package ru.javawebinar.basejava.model;
 import java.util.Objects;
 
 public class SimpleTextSection extends Section {
-    private String text;
+    private final String text;
 
     public SimpleTextSection(String text) {
         this.text = text;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public String toString() {
+        return text;
     }
 
     @Override
@@ -20,9 +28,5 @@ public class SimpleTextSection extends Section {
     @Override
     public int hashCode() {
         return Objects.hash(text);
-    }
-
-    public String toString() {
-        return text;
     }
 }

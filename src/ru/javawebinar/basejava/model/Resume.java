@@ -15,8 +15,8 @@ public class Resume {
 
     private final String fullName;
 
-    public final Map<ContactsType, String> contacts = new EnumMap<>(ContactsType.class);
-    public final Map<SectionType, Section> section = new EnumMap<>(SectionType.class);
+    private final Map<ContactsType, String> contacts = new EnumMap<>(ContactsType.class);
+    private final Map<SectionsType, Section> sections = new EnumMap<>(SectionsType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -31,21 +31,24 @@ public class Resume {
         return uuid;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Resume resume = (Resume) o;
-        return Objects.equals(getUuid(), resume.getUuid()) &&
-                Objects.equals(getFullName(), resume.getFullName()) &&
+        return Objects.equals(uuid, resume.uuid) &&
+                Objects.equals(fullName, resume.fullName) &&
                 Objects.equals(contacts, resume.contacts) &&
-                Objects.equals(section, resume.section);
+                Objects.equals(sections, resume.sections);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUuid(), getFullName(), contacts, section);
+        return Objects.hash(uuid, fullName, contacts, sections);
+    }
+
+    public String getFullName() {
+        return fullName;
     }
 
     @Override
@@ -53,8 +56,11 @@ public class Resume {
         return uuid + " " + fullName;
     }
 
-    public String getFullName() {
-        return fullName;
+    public Map<ContactsType, String> getContacts() {
+        return contacts;
     }
 
+    public Map<SectionsType, Section> getSections() {
+        return sections;
+    }
 }

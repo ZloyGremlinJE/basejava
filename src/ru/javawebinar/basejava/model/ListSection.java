@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class ListSection extends Section  {
-   protected List<String> list;
+   private final List<String> list;
 
     public ListSection(List<String> list) {
         this.list = list;
@@ -26,5 +26,9 @@ public class ListSection extends Section  {
     @Override
     public int hashCode() {
         return Objects.hash(list);
+    }
+
+    public List<String> getList() {
+        return list;
     }
 }
