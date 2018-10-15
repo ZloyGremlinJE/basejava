@@ -31,6 +31,10 @@ public class Resume {
         return uuid;
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -45,10 +49,6 @@ public class Resume {
     @Override
     public int hashCode() {
         return Objects.hash(uuid, fullName, contacts, sections);
-    }
-
-    public String getFullName() {
-        return fullName;
     }
 
     @Override
