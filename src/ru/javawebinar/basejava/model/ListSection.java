@@ -10,6 +10,10 @@ public class ListSection extends Section  {
         this.list = list;
     }
 
+    public List<String> getList() {
+        return list;
+    }
+
     @Override
     public String toString() {
         return  list.toString();
@@ -28,7 +32,4 @@ public class ListSection extends Section  {
         return Objects.hash(list);
     }
 
-    public List<String> getList() {
-        return list;
-    }
 }

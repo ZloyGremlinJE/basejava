@@ -35,6 +35,14 @@ public class Resume {
         return fullName;
     }
 
+    public Map<ContactsType, String> getContacts() {
+        return contacts;
+    }
+
+    public Map<SectionsType, Section> getSections() {
+        return sections;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,13 +62,5 @@ public class Resume {
     @Override
     public String toString() {
         return uuid + " " + fullName;
-    }
-
-    public Map<ContactsType, String> getContacts() {
-        return contacts;
-    }
-
-    public Map<SectionsType, Section> getSections() {
-        return sections;
     }
 }
