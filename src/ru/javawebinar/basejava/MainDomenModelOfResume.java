@@ -15,21 +15,21 @@ public class MainDomenModelOfResume {
         //in
         Resume resume = new Resume("UUID1", "Григорий Кислин");
 
-        Map<ContactsType, String> contacts = resume.getContacts();
-        Map<SectionsType, Section> sections = resume.getSections();
+        Map<ContactType, String> contacts = resume.getContacts();
+        Map<SectionType, Section> sections = resume.getSections();
 
-        contacts.put(ContactsType.PHONE, "+7(921) 855-0482");
-        contacts.put(ContactsType.SKYPE, "grigory.kislin");
-        contacts.put(ContactsType.EMAIL, "gkislin@yandex.ru");
-        contacts.put(ContactsType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
-        contacts.put(ContactsType.GITHUB, "https://github.com/gkislin");
-        contacts.put(ContactsType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/gkislin");
-        contacts.put(ContactsType.HOMEPAGE, "http://gkislin.ru");
+        contacts.put(ContactType.PHONE, "+7(921) 855-0482");
+        contacts.put(ContactType.SKYPE, "grigory.kislin");
+        contacts.put(ContactType.EMAIL, "gkislin@yandex.ru");
+        contacts.put(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        contacts.put(ContactType.GITHUB, "https://github.com/gkislin");
+        contacts.put(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/gkislin");
+        contacts.put(ContactType.HOMEPAGE, "http://gkislin.ru");
 
-        sections.put(SectionsType.OBJECTIVE, new SimpleTextSection("Ведущий стажировок и корпоративного обучения по Java" +
+        sections.put(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java" +
                 " Web и Enterprise технологиям"));
 
-        sections.put(SectionsType.PERSONAL, new SimpleTextSection("Аналитический склад ума, сильная логика, креативность, " +
+        sections.put(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, " +
                 "инициативность. Пурист кода и архитектуры. "));
 
         List<String> achievements = new ArrayList<>();
@@ -55,7 +55,7 @@ public class MainDomenModelOfResume {
                 " Eport, Chronopay,\n Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
 
         Section section = new ListSection(achievements);
-        sections.put(SectionsType.ACHIEVEMENT, section);
+        sections.put(SectionType.ACHIEVEMENT, section);
 
         List<String> qualifications = new ArrayList<>();
 
@@ -86,37 +86,37 @@ public class MainDomenModelOfResume {
         qualifications.add("\n * Родной русский, английский \"upper intermediate\" ");
 
         section = new ListSection(qualifications);
-        sections.put(SectionsType.QUALIFICATIONS, section);
+        sections.put(SectionType.QUALIFICATIONS, section);
 
-        List<Company> worksPlaces = new ArrayList<>();
+        List<Organization> worksPlaces = new ArrayList<>();
 
-        worksPlaces.add(new Company("Java Online Projects", "http://javaops.ru",
+        worksPlaces.add(new Organization("Java Online Projects", "http://javaops.ru",
                 LocalDate.of(2013, Month.OCTOBER, 01), LocalDate.now(),
                 "Автор проекта.",
                 "Создание, организация и проведение Java онлайн проектов и стажировок."));
 
-        worksPlaces.add(new Company("Wrike", "https://www.wrike.com/", LocalDate.of(2012, Month.OCTOBER, 01),
+        worksPlaces.add(new Organization("Wrike", "https://www.wrike.com/", LocalDate.of(2012, Month.OCTOBER, 01),
                 LocalDate.of(2006, Month.JANUARY, 01),
                 "Старший разработчик (backend)",
                 "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring," +
                         "\n MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."));
 
-        section = new CompanySection(worksPlaces);
-        sections.put(SectionsType.EXPERIENCE, section);
+        section = new OrganizationSection(worksPlaces);
+        sections.put(SectionType.EXPERIENCE, section);
 
-        List<Company> studyPlaces = new ArrayList<>();
-        studyPlaces.add(new Company("Coursera", "https://www.coursera.org/course/progfun",
+        List<Organization> studyPlaces = new ArrayList<>();
+        studyPlaces.add(new Organization("Coursera", "https://www.coursera.org/course/progfun",
                 LocalDate.of(2013, Month.MARCH, 01), LocalDate.of(2013, Month.MAY, 01),
                 "Functional Programming Principles in Scala\" by Martin Odersky",
                 ""));
 
-        studyPlaces.add(new Company("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
+        studyPlaces.add(new Organization("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
                 LocalDate.of(2011, Month.MARCH, 01), LocalDate.of(2011, Month.APRIL, 01),
                 "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
                 ""));
 
-        section = new CompanySection(studyPlaces);
-        sections.put(SectionsType.EDUCATION, section);
+        section = new OrganizationSection(studyPlaces);
+        sections.put(SectionType.EDUCATION, section);
 
 
         //out

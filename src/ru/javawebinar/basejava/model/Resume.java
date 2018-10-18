@@ -15,14 +15,16 @@ public class Resume {
 
     private final String fullName;
 
-    private final Map<ContactsType, String> contacts = new EnumMap<>(ContactsType.class);
-    private final Map<SectionsType, Section> sections = new EnumMap<>(SectionsType.class);
+    private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+    private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
     }
 
     public Resume(String uuid, String fullName) {
+        Objects.requireNonNull(uuid, "uuid must not be null");
+        Objects.requireNonNull(fullName, "fullName must not be null");
         this.uuid = uuid;
         this.fullName = fullName;
     }
@@ -30,17 +32,22 @@ public class Resume {
     public String getUuid() {
         return uuid;
     }
-
     public String getFullName() {
         return fullName;
     }
 
-    public Map<ContactsType, String> getContacts() {
+    public Map<ContactType, String> getContacts() {
         return contacts;
     }
-
-    public Map<SectionsType, Section> getSections() {
+    public Map<SectionType, Section> getSections() {
         return sections;
+    }
+
+    public String  getContact(ContactType type){
+        return contacts.get(type);
+    }
+    public Section getSection(SectionType type){
+        return  sections.get(type);
     }
 
     @Override
