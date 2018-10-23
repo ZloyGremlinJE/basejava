@@ -89,34 +89,36 @@ public class MainDomenModelOfResume {
         sections.put(SectionType.QUALIFICATIONS, section);
 
         List<Organization> worksPlaces = new ArrayList<>();
-
-        worksPlaces.add(new Organization("Java Online Projects", "http://javaops.ru",
-                LocalDate.of(2013, Month.OCTOBER, 01), LocalDate.now(),
+        Organization firstOrganization = new Organization("Java Online Projects", "http://javaops.ru");
+        firstOrganization.addDescriptPlace(new DescriptPlace(LocalDate.of(2013, Month.OCTOBER, 01), LocalDate.now(),
                 "Автор проекта.",
                 "Создание, организация и проведение Java онлайн проектов и стажировок."));
+        worksPlaces.add(firstOrganization);
 
-        worksPlaces.add(new Organization("Wrike", "https://www.wrike.com/", LocalDate.of(2012, Month.OCTOBER, 01),
-                LocalDate.of(2006, Month.JANUARY, 01),
-                "Старший разработчик (backend)",
-                "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring," +
-                        "\n MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."));
 
+
+//        worksPlaces.add(new Organization("Wrike", "https://www.wrike.com/", LocalDate.of(2012, Month.OCTOBER, 01),
+//                LocalDate.of(2006, Month.JANUARY, 01),
+//                "Старший разработчик (backend)",
+//                "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring," +
+//                        "\n MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."));
+//
         section = new OrganizationSection(worksPlaces);
         sections.put(SectionType.EXPERIENCE, section);
-
-        List<Organization> studyPlaces = new ArrayList<>();
-        studyPlaces.add(new Organization("Coursera", "https://www.coursera.org/course/progfun",
-                LocalDate.of(2013, Month.MARCH, 01), LocalDate.of(2013, Month.MAY, 01),
-                "Functional Programming Principles in Scala\" by Martin Odersky",
-                ""));
-
-        studyPlaces.add(new Organization("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
-                LocalDate.of(2011, Month.MARCH, 01), LocalDate.of(2011, Month.APRIL, 01),
-                "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
-                ""));
-
-        section = new OrganizationSection(studyPlaces);
-        sections.put(SectionType.EDUCATION, section);
+//
+//        List<Organization> studyPlaces = new ArrayList<>();
+//        studyPlaces.add(new Organization("Coursera", "https://www.coursera.org/course/progfun",
+//                LocalDate.of(2013, Month.MARCH, 01), LocalDate.of(2013, Month.MAY, 01),
+//                "Functional Programming Principles in Scala\" by Martin Odersky",
+//                ""));
+//
+//        studyPlaces.add(new Organization("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
+//                LocalDate.of(2011, Month.MARCH, 01), LocalDate.of(2011, Month.APRIL, 01),
+//                "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
+//                ""));
+//
+//        section = new OrganizationSection(studyPlaces);
+//        sections.put(SectionType.EDUCATION, section);
 
 
         //out
