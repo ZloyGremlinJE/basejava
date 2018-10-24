@@ -1,4 +1,4 @@
-package ru.javawebinar.basejava;
+package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.util.DateUtil;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MainDomenModelOfResume {
+public class ResumeTestData {
 
 
     public static void main(String[] args) {
