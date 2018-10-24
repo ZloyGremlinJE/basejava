@@ -2,6 +2,7 @@ package ru.javawebinar.basejava.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Organization {
     private final Link homepage;
@@ -17,4 +18,25 @@ public class Organization {
        descriptPlaces.add(descriptPlace);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Organization that = (Organization) o;
+        return Objects.equals(homepage, that.homepage) &&
+                Objects.equals(descriptPlaces, that.descriptPlaces);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(homepage, descriptPlaces);
+    }
+
+    @Override
+    public String toString() {
+        return "Organization{" +
+                "homepage=" + homepage +
+                ", descriptPlaces=" + descriptPlaces +
+                '}';
+    }
 }

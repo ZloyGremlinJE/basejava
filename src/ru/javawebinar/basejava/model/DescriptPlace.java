@@ -34,4 +34,14 @@ public class DescriptPlace {
     public int hashCode() {
         return Objects.hash(startDate, endDate, title, description);
     }
+
+    @Override
+    public String toString() {
+        return "DescriptPlace{" +
+                "startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                '}' + "\n";
+    }
 }
