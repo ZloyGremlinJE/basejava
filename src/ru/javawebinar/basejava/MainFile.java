@@ -3,6 +3,8 @@ package ru.javawebinar.basejava;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * gkislin
@@ -33,5 +35,21 @@ public class MainFile {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        outputFilesRecursively(dir);
     }
+
+    public static void outputFilesRecursively(File directory) {
+        if (directory.isDirectory()) {
+            List<File> fileList = Arrays.asList(directory.listFiles());
+            for (File file : fileList) {
+                if (file.isFile()) {
+                    System.out.println("File name: " + file.getName());
+                } else if (file.isDirectory()) {
+                    System.out.println("Directory name: " + file.getName());
+                    outputFilesRecursively(file);
+                }
+            }
+        }
+    }
+
 }
