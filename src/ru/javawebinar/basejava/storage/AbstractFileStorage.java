@@ -1,9 +1,11 @@
 package ru.javawebinar.basejava.storage;
 
+import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,7 +32,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void doUpdate(Resume resume, File file) {
-
+        try {
+            doWrite(resume, file);
+        } catch (IOException e) {
+            throw new StorageException("IO error", file.getName(), e);
+        }
     }
 
     @Override
@@ -42,36 +48,48 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected void doSave(Resume resume, File file) {
         try {
             file.createNewFile();
-            doWrite(resume, file);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new StorageException("IO error", file.getName(), e);
+        }
+        doUpdate(resume, file);
+    }
+
+    @Override
+    protected Resume doGet(File file) {
+        try {
+            return doRead(file);
+        } catch (IOException e) {
+            throw new StorageException("IO error", file.getName(), e);
         }
     }
 
     @Override
-    protected Resume doGet(File searchKey) {
-        return null;
-    }
-
-    @Override
-    protected void doDelete(File searchKey) {
+    protected void doDelete(File file) {
+       file.delete();
 
     }
 
     @Override
     protected List<Resume> getCopyList() {
-        return null;
+        List<Resume> copyList = new ArrayList<>(size());
+        for (File file:directory.listFiles()) {
+            copyList.add(doGet(file));
+        }
+        return copyList;
     }
 
     @Override
     public void clear() {
-
+        for (File file:directory.listFiles()) {
+            doDelete(file);
+        }
     }
 
     @Override
     public int size() {
-        return 0;
+        return  directory.list().length;
     }
 
     protected abstract void doWrite(Resume r, File file) throws IOException;
+    protected abstract Resume doRead( File file) throws  IOException;
 }
