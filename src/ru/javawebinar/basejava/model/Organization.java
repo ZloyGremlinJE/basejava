@@ -7,15 +7,14 @@ import java.util.Objects;
 public class Organization {
     private final Link homepage;
 
-     private final List<DescriptPlace> descriptPlaces = new ArrayList<>();
+    private final List<PlaceDescription> placeDescriptions = new ArrayList<>();
 
     public Organization(String name, String url) {
-        Link homepage = new Link(name, url);
-        this.homepage = homepage;
+        this.homepage = new Link(name, url);
     }
 
-    public void addDescriptPlace(DescriptPlace descriptPlace){
-       descriptPlaces.add(descriptPlace);
+    public void addPlaceDescription(PlaceDescription placeDescription) {
+        placeDescriptions.add(placeDescription);
     }
 
     @Override
@@ -24,19 +23,16 @@ public class Organization {
         if (o == null || getClass() != o.getClass()) return false;
         Organization that = (Organization) o;
         return Objects.equals(homepage, that.homepage) &&
-                Objects.equals(descriptPlaces, that.descriptPlaces);
+                Objects.equals(placeDescriptions, that.placeDescriptions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(homepage, descriptPlaces);
+        return Objects.hash(homepage, placeDescriptions);
     }
 
     @Override
     public String toString() {
-        return "Organization{" +
-                "homepage=" + homepage +
-                ", descriptPlaces=" + descriptPlaces +
-                '}';
+        return "Organization{" + homepage + ", " + placeDescriptions + '}';
     }
 }

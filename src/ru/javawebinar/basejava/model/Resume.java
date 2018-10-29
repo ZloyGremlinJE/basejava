@@ -32,6 +32,7 @@ public class Resume {
     public String getUuid() {
         return uuid;
     }
+
     public String getFullName() {
         return fullName;
     }
@@ -39,15 +40,17 @@ public class Resume {
     public Map<ContactType, String> getContacts() {
         return contacts;
     }
+
     public Map<SectionType, Section> getSections() {
         return sections;
     }
 
-    public String  getContact(ContactType type){
+    public String getContact(ContactType type) {
         return contacts.get(type);
     }
-    public Section getSection(SectionType type){
-        return  sections.get(type);
+
+    public Section getSection(SectionType type) {
+        return sections.get(type);
     }
 
     @Override
@@ -68,6 +71,6 @@ public class Resume {
 
     @Override
     public String toString() {
-        return uuid + " " + fullName;
+        return uuid + ", " + fullName;
     }
 }

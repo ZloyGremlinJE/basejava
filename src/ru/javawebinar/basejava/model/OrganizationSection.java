@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class OrganizationSection extends Section {
-   private final List<Organization> organizations;
+    private final List<Organization> organizations;
 
     public OrganizationSection(List<Organization> organizations) {
         Objects.requireNonNull(organizations, "company must not be null!");
@@ -26,6 +26,6 @@ public class OrganizationSection extends Section {
 
     @Override
     public String toString() {
-        return  organizations.toString();
+        return organizations.toString();
     }
 }

@@ -83,14 +83,14 @@ public class MainDomenModelOfResume {
 
         List<Organization> worksPlaces = new ArrayList<>();
         Organization organization = new Organization("Java Online Projects", "http://javaops.ru");
-        organization.addDescriptPlace(
-                new DescriptPlace(
+        organization.addPlaceDescription(
+                new PlaceDescription(
                         DateUtil.of(2013, Month.OCTOBER), LocalDate.now(),
                         "Автор проекта.",
                         "Создание, организация и проведение Java онлайн проектов и стажировок."));
         worksPlaces.add(organization);
         organization = new Organization("Wrike", "https://www.wrike.com/");
-        organization.addDescriptPlace(new DescriptPlace(
+        organization.addPlaceDescription(new PlaceDescription(
                 DateUtil.of(2006, Month.JANUARY), DateUtil.of(2006, Month.JANUARY),
                 "Старший разработчик (backend)",
                 "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring," +
@@ -105,9 +105,9 @@ public class MainDomenModelOfResume {
         organization = new Organization("Санкт-Петербургский национальный исследовательский университет" +
                 " информационных технологий, механики и оптики",
                 "http://www.ifmo.ru/ru/");
-        organization.addDescriptPlace(new DescriptPlace(DateUtil.of(1993, Month.SEPTEMBER),DateUtil.of(1996, Month.JULY),
+        organization.addPlaceDescription(new PlaceDescription(DateUtil.of(1993, Month.SEPTEMBER),DateUtil.of(1996, Month.JULY),
                 "Аспирантура (программист С, С++)",""));
-        organization.addDescriptPlace(new DescriptPlace(DateUtil.of(1987, Month.SEPTEMBER),DateUtil.of(1993, Month.JULY),
+        organization.addPlaceDescription(new PlaceDescription(DateUtil.of(1987, Month.SEPTEMBER),DateUtil.of(1993, Month.JULY),
                 "Инженер (программист Fortran, C)",""));
         studyPlaces.add(organization);
         section = new OrganizationSection(studyPlaces);
