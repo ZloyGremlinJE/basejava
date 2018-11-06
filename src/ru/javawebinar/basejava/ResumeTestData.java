@@ -16,18 +16,18 @@ public class ResumeTestData {
         Map<ContactType, String> contacts = resume.getContacts();
         Map<SectionType, Section> sections = resume.getSections();
 
-        contacts.put(ContactType.PHONE, "+7(921) 855-0482");
-        contacts.put(ContactType.SKYPE, "grigory.kislin");
-        contacts.put(ContactType.EMAIL, "gkislin@yandex.ru");
-        contacts.put(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
-        contacts.put(ContactType.GITHUB, "https://github.com/gkislin");
-        contacts.put(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/gkislin");
-        contacts.put(ContactType.HOMEPAGE, "http://gkislin.ru");
+        resume.addContact(ContactType.PHONE, "+7(921) 855-0482");
+        resume.addContact(ContactType.SKYPE, "grigory.kislin");
+        resume.addContact(ContactType.EMAIL, "gkislin@yandex.ru");
+        resume.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        resume.addContact(ContactType.GITHUB, "https://github.com/gkislin");
+        resume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/gkislin");
+        resume.addContact(ContactType.HOMEPAGE, "http://gkislin.ru");
 
-        sections.put(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java" +
+        resume.addSection(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java" +
                 " Web и Enterprise технологиям"));
 
-        sections.put(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, " +
+        resume.addSection(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, " +
                 "инициативность. Пурист кода и архитектуры. "));
 
         List<String> achievements = new ArrayList<>();
@@ -48,7 +48,7 @@ public class ResumeTestData {
         achievements.add("\n * Реализация протоколов по приему платежей всех основных платежных системы России (Cyberplat," +
                 " Eport, Chronopay,\n Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
         Section section = new ListSection(achievements);
-        sections.put(SectionType.ACHIEVEMENT, section);
+        resume.addSection(SectionType.ACHIEVEMENT, section);
 
 
         List<String> qualifications = new ArrayList<>();
@@ -75,7 +75,7 @@ public class ResumeTestData {
         qualifications.add("\n * программирования ");
         qualifications.add("\n * Родной русский, английский \"upper intermediate\" ");
         section = new ListSection(qualifications);
-        sections.put(SectionType.QUALIFICATIONS, section);
+        resume.addSection(SectionType.QUALIFICATIONS, section);
 
 
         List<Organization> worksPlaces = new ArrayList<>();
@@ -94,19 +94,19 @@ public class ResumeTestData {
                                 "авторизация по OAuth1, OAuth2, JWT SSO."));
         worksPlaces.add(organization);
         section = new OrganizationSection(worksPlaces);
-        sections.put(SectionType.EXPERIENCE, section);
+        resume.addSection(SectionType.EXPERIENCE, section);
 
 
         List<Organization> studyPlaces = new ArrayList<>();
         organization = new Organization("Санкт-Петербургский национальный исследовательский университет" +
                 " информационных технологий, механики и оптики",
                 "http://www.ifmo.ru/ru/", new Organization.PlaceDescription(DateUtil.of(1993, Month.SEPTEMBER), DateUtil.of(1996, Month.JULY),
-                "Аспирантура (программист С, С++)", ""),
+                "Аспирантура (программист С, С++)", null),
                 new Organization.PlaceDescription(DateUtil.of(1987, Month.SEPTEMBER), DateUtil.of(1993, Month.JULY),
-                        "Инженер (программист Fortran, C)", ""));
+                        "Инженер (программист Fortran, C)", null));
         studyPlaces.add(organization);
         section = new OrganizationSection(studyPlaces);
-        sections.put(SectionType.EDUCATION, section);
+        resume.addSection(SectionType.EDUCATION, section);
 
 
         return resume;
