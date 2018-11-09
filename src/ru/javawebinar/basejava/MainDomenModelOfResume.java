@@ -125,5 +125,7 @@ public class MainDomenModelOfResume {
             System.out.println(entry.getKey() + " " + entry.getValue().toString());
         }
 
+
+
     }
 }
