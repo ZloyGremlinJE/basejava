@@ -3,9 +3,7 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,37 +23,49 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected Path getSearchKey(String uuid) {
+
         return null;
     }
 
     @Override
-    protected void doUpdate(Resume resume, Path searchKey) {
+    protected void doUpdate(Resume resume, Path path) {
 
     }
 
     @Override
-    protected boolean isExist(Path searchKey) {
-        return false;
+    protected boolean isExist(Path path) {
+        return Files.isRegularFile(path);
     }
 
     @Override
-    protected void doSave(Resume resume, Path searchKey) {
+    protected void doSave(Resume resume, Path path) {
+        try {
+            Files.createFile(path);
+        } catch (IOException e) {
+            throw new StorageException("Error creating path",  path.toString(), e);
+        }
+        doUpdate(resume, path);
+    }
+
+    @Override
+    protected Resume doGet(Path path) {
+        try {
+            return   doRead(new BufferedInputStream(new FileInputStream(path.toFile())));
+        } catch (IOException e) {
+            throw new StorageException("Error reading file", path.toString(), e);
+        }
+
 
     }
 
     @Override
-    protected Resume doGet(Path searchKey) {
-        return null;
-    }
-
-    @Override
-    protected void doDelete(Path searchKey) {
+    protected void doDelete(Path path) {
 
     }
 
     @Override
     protected List<Resume> getCopyList() {
-        return null;
+       return null;
     }
 
     @Override
@@ -69,12 +79,17 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     public int size() {
-
-        return 0;
+        long count;
+        try {
+            count = Files.list(directory).count();
+        } catch (IOException e) {
+            throw new StorageException("Error getting list of files in directory", null);
+        }
+        return (int) count;
     }
 
 
-
     protected abstract void doWrite(Resume resume, OutputStream outputStream) throws IOException;
+
     protected abstract Resume doRead(InputStream is) throws IOException;
 }
