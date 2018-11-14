@@ -33,19 +33,19 @@ public class MainFile {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        outputFilesRecursively(dir);
+        outputFilesRecursively(dir, "");
     }
 
-    public static void outputFilesRecursively(File directory) {
+    public static void outputFilesRecursively(File directory, String indent) {
         if (directory.isDirectory()) {
             File[] fileList = directory.listFiles();
             if (fileList != null) {
                 for (File file : fileList) {
                     if (file.isFile()) {
-                        System.out.println("File name: " + file.getName());
+                        System.out.println(indent + "File: " + file.getName());
                     } else if (file.isDirectory()) {
-                        System.out.println("Directory name: " + file.getName());
-                        outputFilesRecursively(file);
+                        System.out.println(indent + "Directory: " + file.getName());
+                        outputFilesRecursively(file, indent + " ");
                     }
                 }
             }
