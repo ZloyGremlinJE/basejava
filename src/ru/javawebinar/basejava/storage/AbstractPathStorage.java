@@ -46,7 +46,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         try {
             Files.createFile(path);
         } catch (IOException e) {
-            throw new StorageException("Error creating path",  path.toString(), e);
+            throw new StorageException("Error creating path", path.toString(), e);
         }
         doUpdate(resume, path);
     }
@@ -54,7 +54,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path path) {
         try {
-            return   doRead(new BufferedInputStream(new FileInputStream(path.toFile())));
+            return doRead(new BufferedInputStream(new FileInputStream(path.toFile())));
         } catch (IOException e) {
             throw new StorageException("Error reading file", path.toString(), e);
         }
