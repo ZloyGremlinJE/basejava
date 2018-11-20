@@ -30,7 +30,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Resume resume, Path path) {
         try {
-            doWrite(resume, new BufferedOutputStream(new FileOutputStream(path.toFile())));
+            doWrite(resume, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
             throw new StorageException("Error writing file", path.toString(), e);
         }
@@ -97,7 +97,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         try {
             count = Files.list(directory).count();
         } catch (IOException e) {
-            throw new StorageException("Error getting list of files in directory", null);
+            throw new StorageException("Error getting list of files in directory", null, e);
         }
         return (int) count;
     }
