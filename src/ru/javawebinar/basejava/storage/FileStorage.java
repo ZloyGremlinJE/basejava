@@ -2,6 +2,7 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.storage.serializer.StrategySerialize;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class FileStorage extends AbstractStorage<File> {
     private File directory;
     private StrategySerialize strategySerialize;
 
-    public FileStorage(File directory, StrategySerialize strategySerialize) {
+    protected FileStorage(File directory, StrategySerialize strategySerialize) {
 
         Objects.requireNonNull(directory, "directory must not be null");
         if (!directory.isDirectory()) {
@@ -37,7 +38,7 @@ public class FileStorage extends AbstractStorage<File> {
         try {
             strategySerialize.doWrite(resume, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
-            throw new StorageException("Error writing file", file.getName(), e);
+            throw new StorageException("Error writing file", resume.getUuid(), e);
         }
     }
 
@@ -51,7 +52,7 @@ public class FileStorage extends AbstractStorage<File> {
         try {
             file.createNewFile();
         } catch (IOException e) {
-            throw new StorageException("Error creating file", file.getName(), e);
+            throw new StorageException("Error creating file " + file.getAbsolutePath(), file.getName(), e);
         }
         doUpdate(resume, file);
     }
@@ -99,7 +100,7 @@ public class FileStorage extends AbstractStorage<File> {
     private File[] checkingListFiles() {
         File[] fileList = directory.listFiles();
         if (fileList == null) {
-            throw new StorageException("Error getting list of files in directory", null);
+            throw new StorageException("Error getting list of files in directory");
         }
         return fileList;
     }

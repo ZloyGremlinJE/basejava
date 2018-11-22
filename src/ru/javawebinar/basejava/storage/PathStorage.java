@@ -64,8 +64,6 @@ public class PathStorage extends AbstractStorage<Path> {
         } catch (IOException e) {
             throw new StorageException("Error reading file", getFileName(path), e);
         }
-
-
     }
 
     @Override
@@ -103,6 +101,4 @@ public class PathStorage extends AbstractStorage<Path> {
             throw new StorageException("Error getting list of files in directory", null, e);
         }
     }
-
-
 }
