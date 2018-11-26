@@ -6,12 +6,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+
+
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final Link homepage;
+    private  Link homepage;
 
     private List<PlaceDescription> placeDescriptions;
+
+    public Organization() {
+    }
 
     public Organization(String name, String url, PlaceDescription... placeDescriptions) {
         this(new Link(name, url), Arrays.asList(placeDescriptions));
@@ -40,6 +45,7 @@ public class Organization implements Serializable {
     public String toString() {
         return "Organization{" + homepage + ", " + placeDescriptions + '}';
     }
+
 
     public static class PlaceDescription implements Serializable{
         private final LocalDate startDate;
