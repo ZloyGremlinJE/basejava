@@ -2,6 +2,8 @@ package ru.javawebinar.basejava.storage.serializer;
 
 import ru.javawebinar.basejava.model.ContactType;
 import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.model.Section;
+import ru.javawebinar.basejava.model.SectionType;
 
 import java.io.*;
 import java.util.Map;
@@ -19,7 +21,15 @@ public class DataStreamSerializer implements StrategySerialize {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
             }
+
             // TODO implements sections
+
+            Map<SectionType, Section> sections = r.getSections();
+            dos.writeInt(sections.size());
+            for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
+
+            }
+
         }
     }
 
@@ -34,6 +44,12 @@ public class DataStreamSerializer implements StrategySerialize {
                 resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
             }
             // TODO implements sections
+            size = dis.readInt();
+            for (int i = 0; i < size; i++) {
+
+            }
+
+
             return resume;
         }
     }
