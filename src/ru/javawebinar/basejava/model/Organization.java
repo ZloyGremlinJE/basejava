@@ -1,5 +1,10 @@
 package ru.javawebinar.basejava.model;
 
+import ru.javawebinar.basejava.util.LocalDateAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -7,11 +12,11 @@ import java.util.List;
 import java.util.Objects;
 
 
-
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private  Link homepage;
+    private Link homepage;
 
     private List<PlaceDescription> placeDescriptions;
 
@@ -46,12 +51,17 @@ public class Organization implements Serializable {
         return "Organization{" + homepage + ", " + placeDescriptions + '}';
     }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class PlaceDescription implements Serializable {
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate startDate;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate endDate;
+        private String title;
+        private String description;
 
-    public static class PlaceDescription implements Serializable{
-        private final LocalDate startDate;
-        private final LocalDate endDate;
-        private final String title;
-        private final String description;
+        public PlaceDescription() {
+        }
 
         public PlaceDescription(LocalDate startDate, LocalDate endDate, String title, String description) {
             Objects.requireNonNull(startDate, "startDate must not be null");
