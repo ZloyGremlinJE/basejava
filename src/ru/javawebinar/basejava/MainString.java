@@ -1,11 +1,10 @@
 package ru.javawebinar.basejava;
 
-import ru.javawebinar.basejava.model.ContactType;
-import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.model.Section;
-import ru.javawebinar.basejava.model.SectionType;
+import ru.javawebinar.basejava.model.*;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class MainString {
@@ -28,26 +27,52 @@ public class MainString {
 //        System.out.println(str1 == str2);
 
         //input
+        Resume resumeOut = ResumeTestData.getResumeTestData();
+        Map<ContactType, String> contacts = resumeOut.getContacts();
+        Map<SectionType, Section> sections = resumeOut.getSections();
+
         try (DataOutputStream dos = new DataOutputStream(new FileOutputStream("D:\\basejava\\storage\\resumeTest.bin"))) {
-            Resume resume = ResumeTestData.getResumeTestData();
 
-            dos.writeUTF(resume.getUuid());
-            dos.writeUTF(resume.getFullName());
+            dos.writeUTF(resumeOut.getUuid());
+            dos.writeUTF(resumeOut.getFullName());
 
-            Map<ContactType, String> contacts = resume.getContacts();
+
             dos.writeInt(contacts.size());
             for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
             }
 
-            Map<SectionType, Section> sections = resume.getSections();
-            dos.writeInt(contacts.size());
+
+            dos.writeInt(sections.size());
             for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
+                SectionType sectionType = entry.getKey();
                 dos.writeUTF(entry.getKey().name());
+                Section section = entry.getValue();
+                switch (sectionType) {
+                    case PERSONAL:
+                    case OBJECTIVE:
+                        String content = ((TextSection) section).getContent();
+                        dos.writeUTF(content);
+                        break;
+                    case ACHIEVEMENT:
+                        List list = ((ListSection) section).getItems();
+                        int size = list.size();
+                        dos.writeInt(size);
+
+                        for (int i = 0; i < size; i++) {
+                            dos.writeUTF((String) list.get(i));
+                        }
+                        break;
+                    case QUALIFICATIONS:
+                        break;
+                    case EXPERIENCE:
+                        break;
+                    case EDUCATION:
+                        break;
+                }
 
             }
-
 
 
         } catch (IOException e) {
@@ -56,19 +81,55 @@ public class MainString {
 
 
         //output
+        Resume resumeIn = null;
         try (DataInputStream dis = new DataInputStream(new FileInputStream("D:\\basejava\\storage\\resumeTest.bin"))) {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
-            Resume resume = new Resume(uuid, fullName);
-            int size = dis.readInt();
-            for (int i = 0; i < size; i++) {
-                resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
+            resumeIn = new Resume(uuid, fullName);
+            int sizeOutputContacts = dis.readInt();
+            for (int i = 0; i < sizeOutputContacts; i++) {
+                resumeIn.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
+            }
+
+            int sizeOutputSection = dis.readInt();
+            for (int k = 0; k < sizeOutputSection; k++) {
+                SectionType type = SectionType.valueOf(dis.readUTF());
+                switch (type) {
+                    case PERSONAL:
+                    case OBJECTIVE:
+                        resumeIn.addSection(type, new TextSection(dis.readUTF()));
+                        break;
+                    case ACHIEVEMENT:
+                        List<String> list = new ArrayList<>();
+                        int sizelistSection = dis.readInt();
+                        for (int i = 0; i < sizelistSection; i++) {
+                            String item = dis.readUTF();
+                            list.add(item);
+                        }
+                        resumeIn.addSection(type, new ListSection(list));
+                        break;
+                    case QUALIFICATIONS:
+
+                        break;
+                    case EXPERIENCE:
+                        break;
+                    case EDUCATION:
+                        break;
+                }
+
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        for (Map.Entry entry : resumeIn.getContacts().entrySet()) {
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        }
+
+        for (Map.Entry entry : resumeIn.getSections().entrySet()) {
+            System.out.println(entry.getKey() + " " + entry.getValue().toString());
+        }
 
     }
 }
