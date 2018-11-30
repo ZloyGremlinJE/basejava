@@ -56,17 +56,19 @@ public class MainString {
                         dos.writeUTF(content);
                         break;
                     case ACHIEVEMENT:
+                    case QUALIFICATIONS:
                         List list = ((ListSection) section).getItems();
                         int size = list.size();
                         dos.writeInt(size);
-
                         for (int i = 0; i < size; i++) {
                             dos.writeUTF((String) list.get(i));
                         }
                         break;
-                    case QUALIFICATIONS:
-                        break;
                     case EXPERIENCE:
+                         list = ((ListSection) section).getItems();
+                         size = list.size();
+                        dos.writeInt(size);
+
                         break;
                     case EDUCATION:
                         break;
@@ -100,18 +102,26 @@ public class MainString {
                         resumeIn.addSection(type, new TextSection(dis.readUTF()));
                         break;
                     case ACHIEVEMENT:
+                    case QUALIFICATIONS:
                         List<String> list = new ArrayList<>();
-                        int sizelistSection = dis.readInt();
-                        for (int i = 0; i < sizelistSection; i++) {
+                        int listsize = dis.readInt();
+                        for (int i = 0; i < listsize; i++) {
                             String item = dis.readUTF();
                             list.add(item);
                         }
                         resumeIn.addSection(type, new ListSection(list));
                         break;
-                    case QUALIFICATIONS:
-
-                        break;
                     case EXPERIENCE:
+                        OrganizationSection organizationSection = new OrganizationSection();
+                        List<Organization.PlaceDescription> placeDescriptions = new ArrayList<>();
+                        int listOrganizationSize = dis.readInt();
+                        for (int i = 0; i < listOrganizationSize; i++) {
+                            Organization.PlaceDescription placeDescription = new Organization.PlaceDescription();
+                         placeDescriptions.add(placeDescription);
+
+                        }
+
+                        resumeIn.addSection(type,organizationSection );
                         break;
                     case EDUCATION:
                         break;
