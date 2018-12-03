@@ -64,10 +64,12 @@ public class MainString {
                             dos.writeUTF((String) list.get(i));
                         }
                         break;
+
                     case EXPERIENCE:
-                         list = ((ListSection) section).getItems();
+                       list = ((OrganizationSection)section).getOrganizations();
                          size = list.size();
                         dos.writeInt(size);
+
 
                         break;
                     case EDUCATION:
@@ -101,6 +103,7 @@ public class MainString {
                     case OBJECTIVE:
                         resumeIn.addSection(type, new TextSection(dis.readUTF()));
                         break;
+
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
                         List<String> list = new ArrayList<>();
@@ -111,8 +114,8 @@ public class MainString {
                         }
                         resumeIn.addSection(type, new ListSection(list));
                         break;
+
                     case EXPERIENCE:
-                        OrganizationSection organizationSection = new OrganizationSection();
                         List<Organization.PlaceDescription> placeDescriptions = new ArrayList<>();
                         int listOrganizationSize = dis.readInt();
                         for (int i = 0; i < listOrganizationSize; i++) {
@@ -120,7 +123,7 @@ public class MainString {
                          placeDescriptions.add(placeDescription);
 
                         }
-
+                        OrganizationSection organizationSection = new OrganizationSection(new Organization(null, placeDescriptions));
                         resumeIn.addSection(type,organizationSection );
                         break;
                     case EDUCATION:
