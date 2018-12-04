@@ -36,13 +36,11 @@ public class MainString {
             dos.writeUTF(resumeOut.getUuid());
             dos.writeUTF(resumeOut.getFullName());
 
-
             dos.writeInt(contacts.size());
             for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
             }
-
 
             dos.writeInt(sections.size());
             for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
@@ -64,14 +62,36 @@ public class MainString {
                             dos.writeUTF((String) list.get(i));
                         }
                         break;
+
                     case EXPERIENCE:
-                         list = ((ListSection) section).getItems();
-                         size = list.size();
-                        dos.writeInt(size);
+                    case EDUCATION:
+                     List  listofOrganizations = ((OrganizationSection) section).getOrganizations();
+                        int sizeListOrganization = listofOrganizations.size();
+                        dos.writeInt(sizeListOrganization);
+//                        for (int i = 0; i < sizeListOrganization; i++) {
+//                            Organization organization = (Organization) listofOrganizations.get(i);
+//                            Link link = organization.getHomepage();
+//                            dos.writeUTF(link.getName());
+//                            dos.writeUTF(link.getUrl());
+//                            List<Organization.PlaceDescription> placeDescriptions = organization.getPlaceDescriptions();
+//                            int sizeListDescriptions = placeDescriptions.size();
+//                            dos.writeInt(sizeListDescriptions);
+//                            for (int j = 0; j < sizeListDescriptions; j++) {
+//                                Organization.PlaceDescription placeDescription = placeDescriptions.get(j);
+//                                dos.writeUTF(placeDescription.getStartDate().toString());
+//                                dos.writeUTF(placeDescription.getEndDate().toString());
+//                                dos.writeUTF(placeDescription.getTitle());
+//                                if (placeDescription.getDescription() != null) {
+//                                    dos.writeUTF(placeDescription.getDescription());
+//                                } else {
+//                                    dos.writeUTF("");
+//                                }
+//                            }
+//                        }
+
 
                         break;
-                    case EDUCATION:
-                        break;
+
                 }
 
             }
@@ -95,12 +115,14 @@ public class MainString {
 
             int sizeOutputSection = dis.readInt();
             for (int k = 0; k < sizeOutputSection; k++) {
-                SectionType type = SectionType.valueOf(dis.readUTF());
+                String typeOf = dis.readUTF();
+                SectionType type = SectionType.valueOf(typeOf);
                 switch (type) {
                     case PERSONAL:
                     case OBJECTIVE:
                         resumeIn.addSection(type, new TextSection(dis.readUTF()));
                         break;
+
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
                         List<String> list = new ArrayList<>();
@@ -111,19 +133,18 @@ public class MainString {
                         }
                         resumeIn.addSection(type, new ListSection(list));
                         break;
+
                     case EXPERIENCE:
-                        OrganizationSection organizationSection = new OrganizationSection();
-                        List<Organization.PlaceDescription> placeDescriptions = new ArrayList<>();
-                        int listOrganizationSize = dis.readInt();
-                        for (int i = 0; i < listOrganizationSize; i++) {
-                            Organization.PlaceDescription placeDescription = new Organization.PlaceDescription();
-                         placeDescriptions.add(placeDescription);
-
-                        }
-
-                        resumeIn.addSection(type,organizationSection );
-                        break;
                     case EDUCATION:
+//                        List<Organization.PlaceDescription> placeDescriptions = new ArrayList<>();
+//                        int listOrganizationSize = dis.readInt();
+//                        for (int i = 0; i < listOrganizationSize; i++) {
+//                            Organization.PlaceDescription placeDescription = new Organization.PlaceDescription();
+//                            placeDescriptions.add(placeDescription);
+//
+//                        }
+//                        OrganizationSection organizationSection = new OrganizationSection(new Organization(null, placeDescriptions));
+//                        resumeIn.addSection(type, organizationSection);
                         break;
                 }
 
