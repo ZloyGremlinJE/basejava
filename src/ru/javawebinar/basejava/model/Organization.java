@@ -32,6 +32,14 @@ public class Organization implements Serializable {
         this.placeDescriptions = placeDescriptions;
     }
 
+    public Link getHomepage() {
+        return homepage;
+    }
+
+    public List<PlaceDescription> getPlaceDescriptions() {
+        return placeDescriptions;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,6 +58,8 @@ public class Organization implements Serializable {
     public String toString() {
         return "Organization{" + homepage + ", " + placeDescriptions + '}';
     }
+
+
 
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class PlaceDescription implements Serializable {
