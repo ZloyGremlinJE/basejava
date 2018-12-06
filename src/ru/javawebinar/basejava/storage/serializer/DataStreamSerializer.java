@@ -112,16 +112,21 @@ public class DataStreamSerializer implements StrategySerialize {
                     case EXPERIENCE:
                     case EDUCATION:
                         List<Organization> organizations = new ArrayList<>();
-                        List<Organization.PlaceDescription> placeDescriptions = new ArrayList<>();
                         int listOrganizationSize = dis.readInt();
+
                         for (int i = 0; i < listOrganizationSize; i++) {
+                            List<Organization.PlaceDescription> placeDescriptions = new ArrayList<>();
                             Link link = new Link(dis.readUTF(), dis.readUTF());
                             int sizelistDescriptions = dis.readInt();
+
                             for (int j = 0; j < sizelistDescriptions; j++) {
                                 LocalDate startDay = LocalDate.parse(dis.readUTF());
                                 LocalDate endDate = LocalDate.parse(dis.readUTF());
                                 String title = dis.readUTF();
                                 String description = dis.readUTF();
+                                if (description.equals("")) {
+                                    description = null;
+                                }
                                 placeDescriptions.add(new Organization.PlaceDescription(startDay, endDate, title, description));
                             }
                             organizations.add(new Organization(link, placeDescriptions));
