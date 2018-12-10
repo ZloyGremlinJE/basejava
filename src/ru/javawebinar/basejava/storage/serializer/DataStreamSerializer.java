@@ -17,10 +17,7 @@ public class DataStreamSerializer implements StrategySerialize {
             dos.writeUTF(resume.getFullName());
             Map<ContactType, String> contacts = resume.getContacts();
             dos.writeInt(contacts.size());
-//            for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
-//                dos.writeUTF(entry.getKey().name());
-//                dos.writeUTF(entry.getValue());
-//            }
+
             contacts.forEach((key, value) -> {
                 writeUTFdata(dos, key.name(), false);
                 writeUTFdata(dos, value, false);
@@ -45,47 +42,25 @@ public class DataStreamSerializer implements StrategySerialize {
                         List list = ((ListSection) section).getItems();
                         int size = list.size();
                         dos.writeInt(size);
-                        for (Object aList : list) {
-                            dos.writeUTF((String) aList);
-                        }
+                        list.forEach(listSection -> writeUTFdata(dos, (String) listSection, false));
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
                         List listofOrganizations = ((OrganizationSection) section).getOrganizations();
                         int sizeListOrganization = listofOrganizations.size();
                         dos.writeInt(sizeListOrganization);
-                        listofOrganizations.forEach(s -> {
-//                        for (Object listofOrganization : listofOrganizations) {
-//                            Organization organization = (Organization) listofOrganization;
-//                            Link link = organization.getHomepage();
-//                            dos.writeUTF(link.getName());
-//                            if (link.getUrl() != null) {
-//                                dos.writeUTF(link.getUrl());
-//                            } else {
-//                                dos.writeUTF("");
-//                            }
-                            Link link = ((Organization) s).getHomepage();
+                        listofOrganizations.forEach(organization -> {
+                            Link link = ((Organization) organization).getHomepage();
                             writeUTFdata(dos, link.getName(), false);
                             writeUTFdata(dos, link.getUrl(), true);
-
-                            List<Organization.PlaceDescription> placeDescriptions = ((Organization) s).getPlaceDescriptions();
+                            List<Organization.PlaceDescription> placeDescriptions = ((Organization) organization).getPlaceDescriptions();
                             int sizeListDescriptions = placeDescriptions.size();
                             writeIntdata(dos, sizeListDescriptions);
-//                            for (Organization.PlaceDescription placeDescription : placeDescriptions) {
-//                                dos.writeUTF(placeDescription.getStartDate().toString());
-//                                dos.writeUTF(placeDescription.getEndDate().toString());
-//                                dos.writeUTF(placeDescription.getTitle());
-//                                if (placeDescription.getDescription() != null) {
-//                                    dos.writeUTF(placeDescription.getDescription());
-//                                } else {
-//                                    dos.writeUTF("");
-//                                }
-//                            }
-                            placeDescriptions.forEach(s1 -> {
-                                writeUTFdata(dos, unparseLocalDate(s1.getStartDate()), false);
-                                writeUTFdata(dos, unparseLocalDate(s1.getEndDate()), false);
-                                writeUTFdata(dos, s1.getTitle(), false);
-                                writeUTFdata(dos, s1.getDescription(), true);
+                            placeDescriptions.forEach(placeDescription -> {
+                                writeUTFdata(dos, unparseLocalDate(placeDescription.getStartDate()), false);
+                                writeUTFdata(dos, unparseLocalDate(placeDescription.getEndDate()), false);
+                                writeUTFdata(dos, placeDescription.getTitle(), false);
+                                writeUTFdata(dos, placeDescription.getDescription(), true);
                             });
                         });
                         break;
