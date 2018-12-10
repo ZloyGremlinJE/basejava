@@ -17,10 +17,14 @@ public class DataStreamSerializer implements StrategySerialize {
             dos.writeUTF(resume.getFullName());
             Map<ContactType, String> contacts = resume.getContacts();
             dos.writeInt(contacts.size());
-            for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
-                dos.writeUTF(entry.getKey().name());
-                dos.writeUTF(entry.getValue());
-            }
+//            for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
+//                dos.writeUTF(entry.getKey().name());
+//                dos.writeUTF(entry.getValue());
+//            }
+            contacts.forEach((key, value) -> {
+                writeUTFdata(dos, key.name(), false);
+                writeUTFdata(dos, value, false);
+            });
 
             //implements sections
 
@@ -41,8 +45,8 @@ public class DataStreamSerializer implements StrategySerialize {
                         List list = ((ListSection) section).getItems();
                         int size = list.size();
                         dos.writeInt(size);
-                        for (int i = 0; i < size; i++) {
-                            dos.writeUTF((String) list.get(i));
+                        for (Object aList : list) {
+                            dos.writeUTF((String) aList);
                         }
                         break;
                     case EXPERIENCE:
@@ -50,26 +54,40 @@ public class DataStreamSerializer implements StrategySerialize {
                         List listofOrganizations = ((OrganizationSection) section).getOrganizations();
                         int sizeListOrganization = listofOrganizations.size();
                         dos.writeInt(sizeListOrganization);
-                        for (int i = 0; i < sizeListOrganization; i++) {
-                            Organization organization = (Organization) listofOrganizations.get(i);
-                            Link link = organization.getHomepage();
-                            dos.writeUTF(link.getName());
-                            dos.writeUTF(link.getUrl());
-                            List<Organization.PlaceDescription> placeDescriptions = organization.getPlaceDescriptions();
+                        listofOrganizations.forEach(s -> {
+//                        for (Object listofOrganization : listofOrganizations) {
+//                            Organization organization = (Organization) listofOrganization;
+//                            Link link = organization.getHomepage();
+//                            dos.writeUTF(link.getName());
+//                            if (link.getUrl() != null) {
+//                                dos.writeUTF(link.getUrl());
+//                            } else {
+//                                dos.writeUTF("");
+//                            }
+                            Link link = ((Organization) s).getHomepage();
+                            writeUTFdata(dos, link.getName(), false);
+                            writeUTFdata(dos, link.getUrl(), true);
+
+                            List<Organization.PlaceDescription> placeDescriptions = ((Organization) s).getPlaceDescriptions();
                             int sizeListDescriptions = placeDescriptions.size();
-                            dos.writeInt(sizeListDescriptions);
-                            for (int j = 0; j < sizeListDescriptions; j++) {
-                                Organization.PlaceDescription placeDescription = placeDescriptions.get(j);
-                                dos.writeUTF(placeDescription.getStartDate().toString());
-                                dos.writeUTF(placeDescription.getEndDate().toString());
-                                dos.writeUTF(placeDescription.getTitle());
-                                if (placeDescription.getDescription() != null) {
-                                    dos.writeUTF(placeDescription.getDescription());
-                                } else {
-                                    dos.writeUTF("");
-                                }
-                            }
-                        }
+                            writeIntdata(dos, sizeListDescriptions);
+//                            for (Organization.PlaceDescription placeDescription : placeDescriptions) {
+//                                dos.writeUTF(placeDescription.getStartDate().toString());
+//                                dos.writeUTF(placeDescription.getEndDate().toString());
+//                                dos.writeUTF(placeDescription.getTitle());
+//                                if (placeDescription.getDescription() != null) {
+//                                    dos.writeUTF(placeDescription.getDescription());
+//                                } else {
+//                                    dos.writeUTF("");
+//                                }
+//                            }
+                            placeDescriptions.forEach(s1 -> {
+                                writeUTFdata(dos, unparseLocalDate(s1.getStartDate()), false);
+                                writeUTFdata(dos, unparseLocalDate(s1.getEndDate()), false);
+                                writeUTFdata(dos, s1.getTitle(), false);
+                                writeUTFdata(dos, s1.getDescription(), true);
+                            });
+                        });
                         break;
                 }
             }
@@ -116,12 +134,17 @@ public class DataStreamSerializer implements StrategySerialize {
 
                         for (int i = 0; i < listOrganizationSize; i++) {
                             List<Organization.PlaceDescription> placeDescriptions = new ArrayList<>();
-                            Link link = new Link(dis.readUTF(), dis.readUTF());
+                            String name = dis.readUTF();
+                            String url = dis.readUTF();
+                            if (url.equals("")) {
+                                url = null;
+                            }
+                            Link link = new Link(name, url);
                             int sizelistDescriptions = dis.readInt();
 
                             for (int j = 0; j < sizelistDescriptions; j++) {
-                                LocalDate startDay = LocalDate.parse(dis.readUTF());
-                                LocalDate endDate = LocalDate.parse(dis.readUTF());
+                                LocalDate startDay = parseLocaleDate(dis.readUTF());
+                                LocalDate endDate = parseLocaleDate(dis.readUTF());
                                 String title = dis.readUTF();
                                 String description = dis.readUTF();
                                 if (description.equals("")) {
@@ -141,5 +164,35 @@ public class DataStreamSerializer implements StrategySerialize {
 
             return resume;
         }
+    }
+
+    private LocalDate parseLocaleDate(String s) {
+        return LocalDate.parse(s);
+    }
+
+    private String unparseLocalDate(LocalDate localDate) {
+        return localDate.toString();
+    }
+
+    private void writeUTFdata(DataOutputStream dos, String data, Boolean checkNull) {
+        try {
+            if (checkNull && data == null) {
+                dos.writeUTF("");
+            } else {
+                dos.writeUTF(data);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void writeIntdata(DataOutputStream dos, Integer data) {
+        try {
+            dos.writeInt(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
