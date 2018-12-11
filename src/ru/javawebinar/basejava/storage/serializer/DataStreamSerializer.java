@@ -26,36 +26,31 @@ public class DataStreamSerializer implements StrategySerialize {
             //implements sections
 
             Map<SectionType, Section> sections = resume.getSections();
-            dos.writeInt(sections.size());
-            for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
-                SectionType sectionType = entry.getKey();
-                dos.writeUTF(entry.getKey().name());
-                Section section = entry.getValue();
+            writeIntdata(dos, sections.size());
+            sections.forEach((sectionType, section) -> {
+                writeUTFdata(dos, sectionType.name(), false);
                 switch (sectionType) {
                     case PERSONAL:
                     case OBJECTIVE:
                         String content = ((TextSection) section).getContent();
-                        dos.writeUTF(content);
+                        writeUTFdata(dos, content, false);
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
                         List list = ((ListSection) section).getItems();
-                        int size = list.size();
-                        dos.writeInt(size);
+                        writeIntdata(dos, list.size());
                         list.forEach(listSection -> writeUTFdata(dos, (String) listSection, false));
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
                         List listofOrganizations = ((OrganizationSection) section).getOrganizations();
-                        int sizeListOrganization = listofOrganizations.size();
-                        dos.writeInt(sizeListOrganization);
+                        writeIntdata(dos, listofOrganizations.size());
                         listofOrganizations.forEach(organization -> {
                             Link link = ((Organization) organization).getHomepage();
                             writeUTFdata(dos, link.getName(), false);
                             writeUTFdata(dos, link.getUrl(), true);
                             List<Organization.PlaceDescription> placeDescriptions = ((Organization) organization).getPlaceDescriptions();
-                            int sizeListDescriptions = placeDescriptions.size();
-                            writeIntdata(dos, sizeListDescriptions);
+                            writeIntdata(dos, placeDescriptions.size());
                             placeDescriptions.forEach(placeDescription -> {
                                 writeUTFdata(dos, unparseLocalDate(placeDescription.getStartDate()), false);
                                 writeUTFdata(dos, unparseLocalDate(placeDescription.getEndDate()), false);
@@ -65,7 +60,8 @@ public class DataStreamSerializer implements StrategySerialize {
                         });
                         break;
                 }
-            }
+            });
+//            }
 
         }
     }
