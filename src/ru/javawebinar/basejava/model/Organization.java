@@ -59,7 +59,13 @@ public class Organization implements Serializable {
         return "Organization{" + homepage + ", " + placeDescriptions + '}';
     }
 
+    public Link getHomepage() {
+        return homepage;
+    }
 
+    public List<PlaceDescription> getPlaceDescriptions() {
+        return placeDescriptions;
+    }
 
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class PlaceDescription implements Serializable {

@@ -5,6 +5,7 @@ import ru.javawebinar.basejava.model.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -16,11 +17,9 @@ public class DataStreamSerializer implements StrategySerialize {
             dos.writeUTF(resume.getUuid());
             dos.writeUTF(resume.getFullName());
             Map<ContactType, String> contacts = resume.getContacts();
-            dos.writeInt(contacts.size());
-
-            contacts.forEach((key, value) -> {
-                writeUTFdata(dos, key.name(), false);
-                writeUTFdata(dos, value, false);
+            writeWithExeption(dos, contacts.entrySet(), element -> {
+               dos.writeUTF(element.getKey().name());
+               dos.writeUTF(element.getValue());
             });
 
             //implements sections
@@ -65,6 +64,23 @@ public class DataStreamSerializer implements StrategySerialize {
 
         }
     }
+
+   private interface Writer <Element> {
+        void writeElement(Element element) throws IOException;
+    }
+
+    private <Element> void  writeWithExeption(DataOutputStream dos, Collection<Element> collection, Writer<Element> write) throws IOException{
+        dos.writeInt(collection.size());
+        for(Element element : collection){
+          write.writeElement(element);
+        }
+    }
+
+
+
+
+
+
 
     @Override
     public Resume doRead(InputStream is) throws IOException {
