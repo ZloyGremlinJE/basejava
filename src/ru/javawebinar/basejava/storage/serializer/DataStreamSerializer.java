@@ -17,13 +17,12 @@ public class DataStreamSerializer implements StrategySerialize {
             dos.writeUTF(resume.getUuid());
             dos.writeUTF(resume.getFullName());
             Map<ContactType, String> contacts = resume.getContacts();
-            writeWithExeption(dos, contacts.entrySet(), element -> {
-               dos.writeUTF(element.getKey().name());
-               dos.writeUTF(element.getValue());
+            writeWithExeption(contacts.entrySet(), dos, element -> {
+                dos.writeUTF(element.getKey().name());
+                dos.writeUTF(element.getValue());
             });
 
             //implements sections
-
             Map<SectionType, Section> sections = resume.getSections();
             writeIntdata(dos, sections.size());
             sections.forEach((sectionType, section) -> {
@@ -65,21 +64,36 @@ public class DataStreamSerializer implements StrategySerialize {
         }
     }
 
-   private interface Writer <Element> {
+    private interface Writer<Element> {
         void writeElement(Element element) throws IOException;
     }
 
-    private <Element> void  writeWithExeption(DataOutputStream dos, Collection<Element> collection, Writer<Element> write) throws IOException{
+    private interface Reader {
+        void readElement() throws IOException;
+    }
+
+    private <Element> void writeWithExeption(Collection<Element> collection, DataOutputStream dos, Writer<Element> elementWriter) throws IOException {
         dos.writeInt(collection.size());
-        for(Element element : collection){
-          write.writeElement(element);
+        for (Element element : collection) {
+            elementWriter.writeElement(element);
         }
     }
 
+    private <Element> void readWithExeption(DataInputStream dis, Reader elementReader) throws IOException {
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            elementReader.readElement();
 
+        }
+    }
 
+    private LocalDate parseLocalDate(String str) {
+        return LocalDate.parse(str);
+    }
 
-
+    private String unParseLocalDate(LocalDate ld) {
+        return ld.toString();
+    }
 
 
     @Override
@@ -88,38 +102,29 @@ public class DataStreamSerializer implements StrategySerialize {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            int size = dis.readInt();
-            for (int i = 0; i < size; i++) {
+            readWithExeption(dis, () -> {
                 resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
+            });
             // implements sections
-            int sizeOutputSection = dis.readInt();
-            for (int k = 0; k < sizeOutputSection; k++) {
-                String typeOf = dis.readUTF();
-                SectionType type = SectionType.valueOf(typeOf);
+            readWithExeption(dis, () -> {
+                SectionType type = SectionType.valueOf(dis.readUTF());
                 switch (type) {
                     case PERSONAL:
                     case OBJECTIVE:
                         resume.addSection(type, new TextSection(dis.readUTF()));
                         break;
-
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
                         List<String> list = new ArrayList<>();
-                        int listsize = dis.readInt();
-                        for (int i = 0; i < listsize; i++) {
-                            String item = dis.readUTF();
-                            list.add(item);
-                        }
+                        readWithExeption(dis, () -> {
+                            list.add(dis.readUTF());
+                        });
                         resume.addSection(type, new ListSection(list));
                         break;
-
                     case EXPERIENCE:
                     case EDUCATION:
                         List<Organization> organizations = new ArrayList<>();
-                        int listOrganizationSize = dis.readInt();
-
-                        for (int i = 0; i < listOrganizationSize; i++) {
+                        readWithExeption(dis, () -> {
                             List<Organization.PlaceDescription> placeDescriptions = new ArrayList<>();
                             String name = dis.readUTF();
                             String url = dis.readUTF();
@@ -127,28 +132,23 @@ public class DataStreamSerializer implements StrategySerialize {
                                 url = null;
                             }
                             Link link = new Link(name, url);
-                            int sizelistDescriptions = dis.readInt();
-
-                            for (int j = 0; j < sizelistDescriptions; j++) {
-                                LocalDate startDay = parseLocaleDate(dis.readUTF());
-                                LocalDate endDate = parseLocaleDate(dis.readUTF());
+                            readWithExeption(dis, () -> {
+                                LocalDate startDay = parseLocalDate(dis.readUTF());
+                                LocalDate endDate = parseLocalDate(dis.readUTF());
                                 String title = dis.readUTF();
                                 String description = dis.readUTF();
                                 if (description.equals("")) {
                                     description = null;
                                 }
                                 placeDescriptions.add(new Organization.PlaceDescription(startDay, endDate, title, description));
-                            }
+                            });
                             organizations.add(new Organization(link, placeDescriptions));
-                        }
-
+                        });
                         OrganizationSection organizationSection = new OrganizationSection(organizations);
                         resume.addSection(type, organizationSection);
                         break;
                 }
-            }
-
-
+            });
             return resume;
         }
     }
