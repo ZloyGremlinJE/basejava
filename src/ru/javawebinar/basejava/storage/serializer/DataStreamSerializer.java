@@ -64,38 +64,6 @@ public class DataStreamSerializer implements StrategySerialize {
         }
     }
 
-    private interface Writer<Element> {
-        void writeElement(Element element) throws IOException;
-    }
-
-    private interface Reader {
-        void readElement() throws IOException;
-    }
-
-    private <Element> void writeWithExeption(Collection<Element> collection, DataOutputStream dos, Writer<Element> elementWriter) throws IOException {
-        dos.writeInt(collection.size());
-        for (Element element : collection) {
-            elementWriter.writeElement(element);
-        }
-    }
-
-    private <Element> void readWithExeption(DataInputStream dis, Reader elementReader) throws IOException {
-        int size = dis.readInt();
-        for (int i = 0; i < size; i++) {
-            elementReader.readElement();
-
-        }
-    }
-
-    private LocalDate parseLocalDate(String str) {
-        return LocalDate.parse(str);
-    }
-
-    private String unParseLocalDate(LocalDate ld) {
-        return ld.toString();
-    }
-
-
     @Override
     public Resume doRead(InputStream is) throws IOException {
         try (DataInputStream dis = new DataInputStream(is)) {
@@ -128,18 +96,12 @@ public class DataStreamSerializer implements StrategySerialize {
                             List<Organization.PlaceDescription> placeDescriptions = new ArrayList<>();
                             String name = dis.readUTF();
                             String url = dis.readUTF();
-                            if (url.equals("")) {
-                                url = null;
-                            }
                             Link link = new Link(name, url);
                             readWithExeption(dis, () -> {
                                 LocalDate startDay = parseLocalDate(dis.readUTF());
                                 LocalDate endDate = parseLocalDate(dis.readUTF());
                                 String title = dis.readUTF();
                                 String description = dis.readUTF();
-                                if (description.equals("")) {
-                                    description = null;
-                                }
                                 placeDescriptions.add(new Organization.PlaceDescription(startDay, endDate, title, description));
                             });
                             organizations.add(new Organization(link, placeDescriptions));
