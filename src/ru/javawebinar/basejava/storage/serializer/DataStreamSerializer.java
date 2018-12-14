@@ -24,42 +24,43 @@ public class DataStreamSerializer implements StrategySerialize {
 
             //implements sections
             Map<SectionType, Section> sections = resume.getSections();
-            writeIntdata(dos, sections.size());
-            sections.forEach((sectionType, section) -> {
-                writeUTFdata(dos, sectionType.name(), false);
+            writeWithExeption(sections.entrySet(), dos, element -> {
+                SectionType sectionType = element.getKey();
+                dos.writeUTF(sectionType.name());
+                Section section = element.getValue();
                 switch (sectionType) {
                     case PERSONAL:
                     case OBJECTIVE:
                         String content = ((TextSection) section).getContent();
-                        writeUTFdata(dos, content, false);
+                        dos.writeUTF(content);
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
                         List list = ((ListSection) section).getItems();
-                        writeIntdata(dos, list.size());
-                        list.forEach(listSection -> writeUTFdata(dos, (String) listSection, false));
+                        writeWithExeption(list, dos, item -> {
+                            dos.writeUTF((String) item);
+                        });
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
                         List listofOrganizations = ((OrganizationSection) section).getOrganizations();
-                        writeIntdata(dos, listofOrganizations.size());
-                        listofOrganizations.forEach(organization -> {
+                        writeWithExeption(listofOrganizations, dos, organization -> {
                             Link link = ((Organization) organization).getHomepage();
-                            writeUTFdata(dos, link.getName(), false);
-                            writeUTFdata(dos, link.getUrl(), true);
+                            dos.writeUTF(link.getName());
+                            dos.writeUTF(link.getUrl());
                             List<Organization.PlaceDescription> placeDescriptions = ((Organization) organization).getPlaceDescriptions();
-                            writeIntdata(dos, placeDescriptions.size());
-                            placeDescriptions.forEach(placeDescription -> {
-                                writeUTFdata(dos, unparseLocalDate(placeDescription.getStartDate()), false);
-                                writeUTFdata(dos, unparseLocalDate(placeDescription.getEndDate()), false);
-                                writeUTFdata(dos, placeDescription.getTitle(), false);
-                                writeUTFdata(dos, placeDescription.getDescription(), true);
+                            writeWithExeption(placeDescriptions, dos, plDesc -> {
+                                dos.writeUTF(unParseLocalDate(plDesc.getStartDate()));
+                                dos.writeUTF(unParseLocalDate(plDesc.getEndDate()));
+                                dos.writeUTF(plDesc.getTitle());
+                                dos.writeUTF(plDesc.getDescription());
                             });
+
                         });
                         break;
                 }
             });
-//            }
+
 
         }
     }
@@ -115,33 +116,36 @@ public class DataStreamSerializer implements StrategySerialize {
         }
     }
 
-    private LocalDate parseLocaleDate(String s) {
-        return LocalDate.parse(s);
+    private interface Writer<Element> {
+        void writeElement(Element element) throws IOException;
     }
 
-    private String unparseLocalDate(LocalDate localDate) {
-        return localDate.toString();
+    private interface Reader {
+        void readElement() throws IOException;
     }
 
-    private void writeUTFdata(DataOutputStream dos, String data, Boolean checkNull) {
-        try {
-            if (checkNull && data == null) {
-                dos.writeUTF("");
-            } else {
-                dos.writeUTF(data);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    private <Element> void writeWithExeption(Collection<Element> collection, DataOutputStream dos, Writer<Element> elementWriter) throws IOException {
+        dos.writeInt(collection.size());
+        for (Element element : collection) {
+            elementWriter.writeElement(element);
         }
-
     }
 
-    private void writeIntdata(DataOutputStream dos, Integer data) {
-        try {
-            dos.writeInt(data);
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void readWithExeption(DataInputStream dis, Reader elementReader) throws IOException {
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            elementReader.readElement();
+
         }
-
     }
+
+    private LocalDate parseLocalDate(String str) {
+        return LocalDate.parse(str);
+    }
+
+    private String unParseLocalDate(LocalDate ld) {
+        return ld.toString();
+    }
+
+
 }
