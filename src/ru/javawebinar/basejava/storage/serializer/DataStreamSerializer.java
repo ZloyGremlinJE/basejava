@@ -69,9 +69,7 @@ public class DataStreamSerializer implements StrategySerialize {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            readWithExeption(dis, () -> {
-                resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            });
+            readWithExeption(dis, () -> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
             // implements sections
             readWithExeption(dis, () -> {
                 SectionType type = SectionType.valueOf(dis.readUTF());
@@ -83,9 +81,7 @@ public class DataStreamSerializer implements StrategySerialize {
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
                         List<String> list = new ArrayList<>();
-                        readWithExeption(dis, () -> {
-                            list.add(dis.readUTF());
-                        });
+                        readWithExeption(dis, () -> list.add(dis.readUTF()));
                         resume.addSection(type, new ListSection(list));
                         break;
                     case EXPERIENCE:
