@@ -8,7 +8,7 @@ public class HW12Stream {
     public static void main(String[] args) {
         int[] ints = {1, 2, 3, 3, 2, 3};
         List<Integer> integers = Arrays.stream(ints).boxed().collect(Collectors.toList());
-        System.out.println("Исходный массив:");
+        System.out.println("Исходный массив чисел:");
         for (int i = 0; i < ints.length; i++) {
             int anInt = ints[i];
             System.out.print(anInt + " ");
@@ -34,7 +34,7 @@ public class HW12Stream {
 
     public static List<Integer> oddOrEven(List<Integer> integers) {
         int sum = integers.stream().mapToInt(Integer::valueOf).sum();
-        System.out.println("Сумма массива: " + sum);
+        System.out.println("Сумма массива чисел: " + sum);
         return integers.stream().filter(i -> isOdd(sum) ? isOdd(i) : isEven(i)).collect(Collectors.toList());
 
     }
