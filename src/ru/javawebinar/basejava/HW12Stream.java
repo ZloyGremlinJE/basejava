@@ -35,7 +35,7 @@ public class HW12Stream {
     public static List<Integer> oddOrEven(List<Integer> integers) {
         int sum = integers.stream().mapToInt(Integer::valueOf).sum();
         System.out.println("Сумма массива чисел: " + sum);
-        return integers.stream().filter(i -> isOdd(sum) ? isOdd(i) : isEven(i)).collect(Collectors.toList());
+        return integers.stream().filter(i -> !isOdd(sum) ? isOdd(i) : isEven(i)).collect(Collectors.toList());
 
     }
 
