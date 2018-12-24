@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 public class HW12Stream {
     public static void main(String[] args) {
-        int[] ints = {1, 2, 3, 3, 2, 3};
+        int[] ints = {1,2,3,3,2,3,1};
         List<Integer> integers = Arrays.stream(ints).boxed().collect(Collectors.toList());
         System.out.println("Исходный массив чисел:");
         for (int i = 0; i < ints.length; i++) {
@@ -35,16 +35,11 @@ public class HW12Stream {
     public static List<Integer> oddOrEven(List<Integer> integers) {
         int sum = integers.stream().mapToInt(Integer::valueOf).sum();
         System.out.println("Сумма массива чисел: " + sum);
-        return integers.stream().filter(i -> !isOdd(sum) ? isOdd(i) : isEven(i)).collect(Collectors.toList());
+        return integers.stream().filter(i -> !isOdd(sum) == isOdd(i)).collect(Collectors.toList());
 
     }
 
     public static boolean isOdd(int i) {
         return i % 2 != 0;
     }
-
-    public static boolean isEven(int i) {
-        return i % 2 == 0;
-    }
-
 }
