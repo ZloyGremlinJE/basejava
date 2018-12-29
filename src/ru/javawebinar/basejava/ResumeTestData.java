@@ -2,9 +2,13 @@ package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.Resume;
 
+import java.util.UUID;
+
 public class ResumeTestData {
+    public static String UUID_1 = UUID.randomUUID().toString();
     public static Resume getResumeTestData() {
-        Resume resume = new Resume("uuid1", "Григорий Кислин");
+
+        Resume resume = new Resume(UUID_1, "Григорий Кислин");
 
 //        Map<ContactType, String> contacts = resume.getContacts();
 //        Map<SectionType, Section> sections = resume.getSections();
