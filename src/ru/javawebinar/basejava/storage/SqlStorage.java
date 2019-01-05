@@ -19,7 +19,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public void clear() {
-        sqlHelper.prepareRequest("DELETE FROM resume");
+        sqlHelper.doRequest(ps -> ps.execute(),"DELETE FROM resume");
 
 /*
 try (Connection conn = sqlHelper.getConnection();
@@ -76,9 +76,9 @@ throw new StorageException(e);
         try (Connection conn = sqlHelper.getConnection();
              PreparedStatement ps = conn.prepareStatement("DELETE FROM resume WHERE uuid = ?")) {
             ps.setString(1, uuid);
-           if(ps.executeUpdate()==0){
-               throw new NotExistStorageException(uuid);
-           }
+            if (ps.executeUpdate() == 0) {
+                throw new NotExistStorageException(uuid);
+            }
         } catch (SQLException e) {
 
         }
@@ -105,11 +105,14 @@ throw new StorageException(e);
              PreparedStatement ps = conn.prepareStatement("SELECT COUNT(uuid)  FROM resume")) {
             ResultSet rs = ps.executeQuery();
             if (!rs.next()) {
-                throw new StorageException("Resume count error");
+                return 0;
             }
             return rs.getInt("count");
         } catch (SQLException e) {
             throw new StorageException(e);
         }
     }
+
 }
+
+

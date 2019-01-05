@@ -13,14 +13,6 @@ public class SqlHelper {
         this.connectionFactory = connectionFactory;
     }
 
-    public void prepareRequest(String request){
-        try (Connection conn = connectionFactory.getConnection();
-             PreparedStatement ps = conn.prepareStatement(request)) {
-            ps.execute();
-        } catch (SQLException e) {
-            throw new StorageException(e);
-        }
-    }
     public Connection getConnection(){
         try(Connection conn = connectionFactory.getConnection()) {
             return connectionFactory.getConnection();
@@ -28,6 +20,20 @@ public class SqlHelper {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public interface prepareRequest<Element> {
+        Element prepareRequest(PreparedStatement ps) throws SQLException;
+    }
+
+    public  <Element> Element doRequest(prepareRequest<Element> prepareRequest, String requestText) {
+        try (Connection conn =  connectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement(requestText)) {
+            return prepareRequest.prepareRequest(ps);
+        } catch (SQLException e) {
+            throw  new StorageException(e);
+        }
     }
 
 
