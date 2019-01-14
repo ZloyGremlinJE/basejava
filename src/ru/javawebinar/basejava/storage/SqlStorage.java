@@ -72,11 +72,11 @@ public class SqlStorage implements Storage {
     public List<Resume> getAllSorted() {
         return sqlHelper.doRequest((ps) -> {
             ResultSet rs = ps.executeQuery();
-            List<Resume> result = new ArrayList<>();
+            List<Resume> resumes = new ArrayList<>();
             while (rs.next()) {
-                result.add(new Resume(rs.getString("uuid"), rs.getString("full_name")));
+                resumes.add(new Resume(rs.getString("uuid"), rs.getString("full_name")));
             }
-            return result;
+            return resumes;
         }, "SELECT *  FROM resume ORDER BY full_name, uuid");
     }
 
