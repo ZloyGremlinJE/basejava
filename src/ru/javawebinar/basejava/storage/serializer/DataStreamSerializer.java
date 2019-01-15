@@ -43,10 +43,10 @@ public class DataStreamSerializer implements StrategySerialize {
                     case EDUCATION:
                         List<Organization> listofOrganizations = ((OrganizationSection) section).getOrganizations();
                         writeWithExeption(listofOrganizations, dos, organization -> {
-                            Link link = (organization).getHomepage();
+                            Link link = organization.getHomepage();
                             dos.writeUTF(link.getName());
                             dos.writeUTF(link.getUrl());
-                            List<Organization.PlaceDescription> placeDescriptions = (organization).getPlaceDescriptions();
+                            List<Organization.PlaceDescription> placeDescriptions = organization.getPlaceDescriptions();
                             writeWithExeption(placeDescriptions, dos, plDesc -> {
                                 dos.writeUTF(unParseLocalDate(plDesc.getStartDate()));
                                 dos.writeUTF(unParseLocalDate(plDesc.getEndDate()));

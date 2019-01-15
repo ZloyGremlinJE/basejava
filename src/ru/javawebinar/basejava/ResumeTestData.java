@@ -1,7 +1,9 @@
 package ru.javawebinar.basejava;
 
+import ru.javawebinar.basejava.model.ContactType;
 import ru.javawebinar.basejava.model.Resume;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class ResumeTestData {
@@ -10,16 +12,16 @@ public class ResumeTestData {
 
         Resume resume = new Resume(UUID_1, "Григорий Кислин");
 
-//        Map<ContactType, String> contacts = resume.getContacts();
+        Map<ContactType, String> contacts = resume.getContacts();
 //        Map<SectionType, Section> sections = resume.getSections();
 //
-//        resume.addContact(ContactType.PHONE, "+7(921) 855-0482");
-//        resume.addContact(ContactType.SKYPE, "grigory.kislin");
-//        resume.addContact(ContactType.EMAIL, "gkislin@yandex.ru");
-//        resume.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
-//        resume.addContact(ContactType.GITHUB, "https://github.com/gkislin");
-//        resume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/gkislin");
-//        resume.addContact(ContactType.HOMEPAGE, "http://gkislin.ru");
+        resume.addContact(ContactType.PHONE, "+7(921) 855-0482");
+        resume.addContact(ContactType.SKYPE, "grigory.kislin");
+        resume.addContact(ContactType.EMAIL, "gkislin@yandex.ru");
+        resume.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        resume.addContact(ContactType.GITHUB, "https://github.com/gkislin");
+        resume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/gkislin");
+        resume.addContact(ContactType.HOMEPAGE, "http://gkislin.ru");
 //
 //        resume.addSection(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java" +
 //                " Web и Enterprise технологиям"));

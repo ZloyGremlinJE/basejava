@@ -23,6 +23,14 @@ public class Organization implements Serializable {
     public Organization() {
     }
 
+    public Link getHomepage() {
+        return homepage;
+    }
+
+    public List<PlaceDescription> getPlaceDescriptions() {
+        return placeDescriptions;
+    }
+
     public Organization(String name, String url, PlaceDescription... placeDescriptions) {
         this(new Link(name, url), Arrays.asList(placeDescriptions));
     }

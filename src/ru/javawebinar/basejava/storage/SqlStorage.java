@@ -32,8 +32,19 @@ public class SqlStorage implements Storage {
             if (!rs.next()) {
                 throw new NotExistStorageException(uuid);
             }
-            return new Resume(uuid, rs.getString("full_name"));
-        }, "SELECT * FROM resume r WHERE r.uuid =?");
+            Resume r = new Resume(uuid, rs.getString("full_name"));
+            do {
+                String value = rs.getString("value");
+                ContactType type = ContactType.valueOf(rs.getString("type"));
+                r.addContact(type, value);
+            } while (rs.next());
+
+            return r;
+        }, ""+
+                "SELECT * FROM resume r " +
+                "LEFT JOIN contact c " +
+                "ON r.uuid = c.resume_uuid " +
+                " WHERE r.uuid =?");
     }
 
     @Override
