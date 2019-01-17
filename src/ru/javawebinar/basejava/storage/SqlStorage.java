@@ -49,14 +49,35 @@ public class SqlStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
-        sqlHelper.doRequest((ps) -> {
-            ps.setString(1, resume.getFullName());
-            ps.setString(2, resume.getUuid());
-            if (ps.executeUpdate() == 0) {
-                throw new NotExistStorageException(resume.getUuid());
+        sqlHelper.transactionalExecute(conn -> {
+            try (PreparedStatement ps = conn.prepareStatement("UPDATE resume SET full_name = ? WHERE uuid = ?")) {
+                ps.setString(1, resume.getFullName());
+                ps.setString(2, resume.getUuid());
+                ps.execute();
             }
+                // delete contacts
+
+
+                // create contacts
+                try (PreparedStatement ps = conn.prepareStatement("UPDATE  contact SET  type = ?, value = ? WHERE resume_uuid = ?")) {
+                    for (Map.Entry<ContactType, String> e : resume.getContacts().entrySet()) {
+                        ps.setString(1, e.getKey().name());
+                        ps.setString(2, e.getValue());
+                        ps.setString(3, resume.getUuid());
+                        ps.addBatch();
+                    }
+                    ps.executeBatch();
+                }
             return null;
-        }, "UPDATE resume SET full_name = ? WHERE uuid = ?");
+        });
+//        sqlHelper.doRequest((ps) -> {
+//            ps.setString(1, resume.getFullName());
+//            ps.setString(2, resume.getUuid());
+//            if (ps.executeUpdate() == 0) {
+//                throw new NotExistStorageException(resume.getUuid());
+//            }
+//            return null;
+//        }, "UPDATE resume SET full_name = ? WHERE uuid = ?");
     }
 
 
@@ -103,12 +124,10 @@ public class SqlStorage implements Storage {
             while (rs.next()) {
                 if (!currentUUID.equals(rs.getString("uuid"))) {
                     currentUUID = rs.getString("uuid");
-                    currentResume = new Resume(currentUUID,rs.getString("full_name"));
+                    currentResume = new Resume(currentUUID, rs.getString("full_name"));
                     resumes.add(currentResume);
-                }else {
-                    writeContact(rs, currentResume);
-
                 }
+                writeContact(rs, currentResume);
             }
             return resumes;
         }, "SELECT * FROM resume r\n" +
