@@ -135,8 +135,7 @@ public class SqlStorage implements Storage {
 
     }
 
-    private void deleteContactsDB
-            (Resume resume, Connection conn) throws SQLException {
+    private void deleteContactsDB(Resume resume, Connection conn) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement("DELETE FROM contact WHERE resume_uuid = ?")) {
             ps.setString(1, resume.getUuid());
             ps.execute();
