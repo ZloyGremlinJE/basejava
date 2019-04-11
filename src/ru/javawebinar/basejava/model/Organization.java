@@ -40,14 +40,6 @@ public class Organization implements Serializable {
         this.placeDescriptions = placeDescriptions;
     }
 
-    public Link getHomepage() {
-        return homepage;
-    }
-
-    public List<PlaceDescription> getPlaceDescriptions() {
-        return placeDescriptions;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

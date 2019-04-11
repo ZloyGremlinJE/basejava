@@ -52,9 +52,9 @@ public class SqlStorage implements Storage {
                 ps.execute();
             }
             // delete contacts
-            deleteContactsDB(resume, conn);
+            SqlStorage.this.deleteContactsDB(resume, conn);
             // create contacts
-            createContactsDB(resume, conn);
+            SqlStorage.this.createContactsDB(resume, conn);
             return null;
         });
     }

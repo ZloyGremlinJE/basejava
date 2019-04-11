@@ -68,33 +68,38 @@ public class MainString {
 //
 //                    case EXPERIENCE:
 //                    case EDUCATION:
-//                        List listofOrganizations = ((OrganizationSection) section).getOrganizations();
+//                     List  listofOrganizations = ((OrganizationSection) section).getOrganizations();
 //                        int sizeListOrganization = listofOrganizations.size();
 //                        dos.writeInt(sizeListOrganization);
-//                        for (int i = 0; i < sizeListOrganization; i++) {
-//                            Organization organization = (Organization) listofOrganizations.get(i);
-//                            Link link = organization.getHomepage();
-//                            dos.writeUTF(link.getName());
-//                            dos.writeUTF(link.getUrl());
-//                            List<Organization.PlaceDescription> placeDescriptions = organization.getPlaceDescriptions();
-//                            int sizeListDescriptions = placeDescriptions.size();
-//                            dos.writeInt(sizeListDescriptions);
-//                            for (int j = 0; j < sizeListDescriptions; j++) {
-//                                Organization.PlaceDescription placeDescription = placeDescriptions.get(j);
-//                                dos.writeUTF(placeDescription.getStartDate().toString());
-//                                dos.writeUTF(placeDescription.getEndDate().toString());
-//                                dos.writeUTF(placeDescription.getTitle());
-//                                if (placeDescription.getDescription() != null) {
-//                                    dos.writeUTF(placeDescription.getDescription());
-//                                } else {
-//                                    dos.writeUTF("");
-//                                }
-//                            }
-//                        }
+////                        for (int i = 0; i < sizeListOrganization; i++) {
+////                            Organization organization = (Organization) listofOrganizations.get(i);
+////                            Link link = organization.getHomepage();
+////                            dos.writeUTF(link.getName());
+////                            dos.writeUTF(link.getUrl());
+////                            List<Organization.PlaceDescription> placeDescriptions = organization.getPlaceDescriptions();
+////                            int sizeListDescriptions = placeDescriptions.size();
+////                            dos.writeInt(sizeListDescriptions);
+////                            for (int j = 0; j < sizeListDescriptions; j++) {
+////                                Organization.PlaceDescription placeDescription = placeDescriptions.get(j);
+////                                dos.writeUTF(placeDescription.getStartDate().toString());
+////                                dos.writeUTF(placeDescription.getEndDate().toString());
+////                                dos.writeUTF(placeDescription.getTitle());
+////                                if (placeDescription.getDescription() != null) {
+////                                    dos.writeUTF(placeDescription.getDescription());
+////                                } else {
+////                                    dos.writeUTF("");
+////                                }
+////                            }
+////                        }
+//
 //
 //                        break;
+//
 //                }
+//
 //            }
+//
+//
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
@@ -134,24 +139,15 @@ public class MainString {
 //
 //                    case EXPERIENCE:
 //                    case EDUCATION:
-//                        List<Organization> organizations = new ArrayList<>();
-//                        List<Organization.PlaceDescription> placeDescriptions = new ArrayList<>();
-//                        int listOrganizationSize = dis.readInt();
-//                        for (int i = 0; i < listOrganizationSize; i++) {
-//                          Link link = new Link(dis.readUTF(), dis.readUTF());
-//                          int sizelistDescriptions = dis.readInt();
-//                            for (int j = 0; j < sizelistDescriptions; j++) {
-//                                LocalDate startDay = LocalDate.parse(dis.readUTF());
-//                                LocalDate endDate = LocalDate.parse(dis.readUTF());
-//                                String title = dis.readUTF();
-//                                String description = dis.readUTF();
-//                                placeDescriptions.add(new Organization.PlaceDescription(startDay, endDate, title, description));
-//                            }
-//                            organizations.add(new Organization(link, placeDescriptions));
-//                        }
-//
-//                        OrganizationSection organizationSection = new OrganizationSection(organizations);
-//                        resumeIn.addSection(type, organizationSection);
+////                        List<Organization.PlaceDescription> placeDescriptions = new ArrayList<>();
+////                        int listOrganizationSize = dis.readInt();
+////                        for (int i = 0; i < listOrganizationSize; i++) {
+////                            Organization.PlaceDescription placeDescription = new Organization.PlaceDescription();
+////                            placeDescriptions.add(placeDescription);
+////
+////                        }
+////                        OrganizationSection organizationSection = new OrganizationSection(new Organization(null, placeDescriptions));
+////                        resumeIn.addSection(type, organizationSection);
 //                        break;
 //                }
 //
