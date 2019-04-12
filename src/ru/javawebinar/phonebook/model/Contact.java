@@ -39,8 +39,8 @@ public class Contact {
         return department;
     }
 
-    public  void addPhoneNumber (String s){
-        phoneNumbers.add(s);
+    public  void addPhoneNumber (String number){
+        phoneNumbers.add(number);
     }
 
     @Override
