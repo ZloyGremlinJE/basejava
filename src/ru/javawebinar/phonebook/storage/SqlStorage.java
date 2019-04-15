@@ -4,6 +4,8 @@ import ru.javawebinar.basejava.model.Resume;
 
 import java.util.List;
 
+
+
 public class SqlStorage implements Storage {
     @Override
     public void clear() {
