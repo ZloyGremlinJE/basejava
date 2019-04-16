@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class Config {
-    rivate static final File PROPS = new File("config\\phone_book.properties");
+    private static final File PROPS = new File("config\\phone_book.properties");
     private static final Config INSTANCE = new Config();
 
     private Properties props = new Properties();

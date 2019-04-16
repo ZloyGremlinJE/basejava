@@ -1,12 +1,20 @@
 package ru.javawebinar.phonebook.storage;
 
 import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.phonebook.sql.ConnectionFactory;
 
+import java.sql.DriverManager;
 import java.util.List;
 
 
 
 public class SqlStorage implements Storage {
+    public final ConnectionFactory connectionFactory;
+
+    public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
+        connectionFactory = ()-> DriverManager.getConnection(dbUrl,dbUser,dbPassword);
+    }
+
     @Override
     public void clear() {
 
