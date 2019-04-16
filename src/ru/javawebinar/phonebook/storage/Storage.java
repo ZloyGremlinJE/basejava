@@ -1,21 +1,21 @@
 package ru.javawebinar.phonebook.storage;
 
-import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.phonebook.model.Contact;
 
 import java.util.List;
 
 public interface Storage {
     void clear();
 
-    void update(Resume resume);
+    void update(Contact contact);
 
-    void save(Resume resume);
+    void save(Contact contact);
 
-    Resume get(String uuid);
+    Contact get(String uuid);
 
     void delete(String uuid);
 
-    List<Resume> getAllSorted();
+    List<Contact> getAllSorted();
 
     int size();
 

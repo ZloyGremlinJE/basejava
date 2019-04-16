@@ -2,6 +2,7 @@ package ru.javawebinar.phonebook.model;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Contact {
     // Unique identifier
@@ -23,6 +24,8 @@ public class Contact {
         this.department = department;
     }
 
+    public Contact(String fullName){ this(UUID.randomUUID().toString(), fullName); }
+
     public String getUuid() {
         return uuid;
     }
@@ -33,6 +36,14 @@ public class Contact {
 
     public ArrayList<String> getPhoneNumbers() {
         return phoneNumbers;
+    }
+
+    public String getPhoneNumbers(String split){
+        for (String s: phoneNumbers
+             ) {
+
+        }
+        return null;
     }
 
     public String getDepartment() {
