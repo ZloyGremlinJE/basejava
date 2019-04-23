@@ -8,8 +8,9 @@ public class Contact {
     // Unique identifier
     private String uuid;
     private String fullName;
-    private ArrayList<String> phoneNumbers;
+    private ArrayList<String> phoneNumbers = new ArrayList<>();
     private String department;
+
 
     public Contact(String uuid, String fullName) {
         Objects.requireNonNull(uuid, "uuid must not be null");
@@ -39,19 +40,30 @@ public class Contact {
     }
 
     public String getPhoneNumbers(String split){
-        for (String s: phoneNumbers
-             ) {
-
+        StringBuilder s = new StringBuilder();
+        for (String k: phoneNumbers) {
+             s.append(k).append(split);
         }
-        return null;
+        return s.toString();
     }
 
     public String getDepartment() {
         return department;
     }
 
+    public void addPhoneNumbers(String s, String split){
+       String [] strings = s.split(split);
+        for (String k: strings) {
+            addPhoneNumber(k);
+        }
+    }
+
     public  void addPhoneNumber (String number){
         phoneNumbers.add(number);
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     @Override
@@ -61,11 +73,12 @@ public class Contact {
 
         Contact contact = (Contact) o;
 
-        if (!uuid.equals(contact.uuid)) return false;
-        if (!fullName.equals(contact.fullName)) return false;
-        if (!Objects.equals(phoneNumbers, contact.phoneNumbers))
-            return false;
-        return Objects.equals(department, contact.department);
+//        if (!uuid.equals(contact.uuid)) return false;
+//        if (!fullName.equals(contact.fullName)) return false;
+//        if (!Objects.equals(phoneNumbers, contact.phoneNumbers))
+//            return false;
+//        return Objects.equals(department, contact.department);
+        return uuid.equals(contact.uuid);
     }
 
     @Override
