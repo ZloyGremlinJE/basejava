@@ -65,10 +65,6 @@ public class AbstractStorageTest {
     public void getAllSorted() throws Exception {
         List<Contact> testableArray = storage.getAllSorted();
         assertEquals(testableArray, Arrays.asList(CONTACT_2, CONTACT_3, CONTACT_4));
-        for (Contact s : testableArray) {
-            System.out.println(s.getPhoneNumbers());
-
-        }
     }
 
     @Test
