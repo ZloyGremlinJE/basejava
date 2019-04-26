@@ -1,4 +1,8 @@
 package ru.javawebinar.phonebook.sql;
 
-public interface prepareRequest {
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public interface prepareRequest<Element> {
+    Element prepareRequest(PreparedStatement ps) throws SQLException;
 }

@@ -24,7 +24,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public Resume get(String uuid) {
-        return sqlHelper.doRequest((ps) -> {
+        return sqlHelper.doRequest(ps -> {
             ps.setString(1, uuid);
             ResultSet rs = ps.executeQuery();
             if (!rs.next()) {
@@ -32,7 +32,7 @@ public class SqlStorage implements Storage {
             }
             Resume r = new Resume(uuid, rs.getString("full_name"));
             do {
-                writeContact(rs, r);
+                SqlStorage.this.writeContact(rs, r);
             } while (rs.next());
 
             return r;
@@ -86,7 +86,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return sqlHelper.doRequest((ps) -> {
+        return sqlHelper.doRequest(ps -> {
             ResultSet rs = ps.executeQuery();
             List<Resume> resumes = new ArrayList<>();
             String currentUUID = "";
@@ -97,7 +97,7 @@ public class SqlStorage implements Storage {
                     currentResume = new Resume(currentUUID, rs.getString("full_name"));
                     resumes.add(currentResume);
                 }
-                writeContact(rs, currentResume);
+                SqlStorage.this.writeContact(rs, currentResume);
             }
             return resumes;
         }, "SELECT * FROM resume r\n" +
